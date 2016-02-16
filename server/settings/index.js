@@ -1,5 +1,6 @@
 'use strict';
 
 module.exports = {
-  Admin: require('./admin')
+  Admin       : require('./admin'),
+  ContentCode : require('./content_code')
 };

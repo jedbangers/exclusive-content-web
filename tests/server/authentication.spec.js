@@ -100,7 +100,7 @@ describe('Authentication', function() {
       });
     });
 
-    it('GET /api/admins/ should respond 401', function() {
+    it('GET /api/admins should respond 401', function() {
       return server.get('/api/admins').expect(401).expect('Content-Type', /json/).endAsync()
       .then((res) => {
         expect(res.body).not.to.be.empty;
@@ -124,8 +124,8 @@ describe('Authentication', function() {
       });
     });
 
-    it('POST /api/admins/ should respond 401', function() {
-      return server.post('/api/admins/').expect(401).expect('Content-Type', /json/).endAsync()
+    it('POST /api/admins should respond 401', function() {
+      return server.post('/api/admins').expect(401).expect('Content-Type', /json/).endAsync()
       .then((res) => {
         expect(res.body).not.to.be.empty;
         expect(res.body.message).to.be.equals('No token provided.');
@@ -142,6 +142,66 @@ describe('Authentication', function() {
 
     it('DELETE /api/admins/:id should respond 401', function() {
       return server.delete(`/api/admins/${randomId}`).expect(401).expect('Content-Type', /json/).endAsync()
+      .then((res) => {
+        expect(res.body).not.to.be.empty;
+        expect(res.body.message).to.be.equals('No token provided.');
+      });
+    });
+
+    it('GET /api/contentCodes should respond 401', function() {
+      return server.get('/api/contentCodes').expect(401).expect('Content-Type', /json/).endAsync()
+      .then((res) => {
+        expect(res.body).not.to.be.empty;
+        expect(res.body.message).to.be.equals('No token provided.');
+      });
+    });
+
+    it('GET /api/contentCodes/:id should respond 401', function() {
+      return server.get(`/api/contentCodes/${randomId}`).expect(401).expect('Content-Type', /json/).endAsync()
+      .then((res) => {
+        expect(res.body).not.to.be.empty;
+        expect(res.body.message).to.be.equals('No token provided.');
+      });
+    });
+
+    it('GET /api/contentCodes/code/:code should respond 200', function() {
+      return agentUtils.withCookies(server.get('/api/contentCodes/code/some_code')).expect(404).endAsync();
+    });
+
+    it('GET /api/contentCodes/code should respond 404', function() {
+      return agentUtils.withCookies(server.get('/api/contentCodes/code')).expect(400).endAsync();
+    });
+
+    it('GET /api/contentCodes/code/ should respond 404', function() {
+      return agentUtils.withCookies(server.get('/api/contentCodes/code/')).expect(400).endAsync();
+    });
+
+    it('GET /api/contentCodes/total should respond 401', function() {
+      return server.get('/api/contentCodes/total').expect(401).expect('Content-Type', /json/).endAsync()
+      .then((res) => {
+        expect(res.body).not.to.be.empty;
+        expect(res.body.message).to.be.equals('No token provided.');
+      });
+    });
+
+    it('POST /api/contentCodes should respond 401', function() {
+      return server.post('/api/contentCodes').expect(401).expect('Content-Type', /json/).endAsync()
+      .then((res) => {
+        expect(res.body).not.to.be.empty;
+        expect(res.body.message).to.be.equals('No token provided.');
+      });
+    });
+
+    it('PUT /api/contentCodes/:id should respond 401', function() {
+      return server.put(`/api/contentCodes/${randomId}`).expect(401).expect('Content-Type', /json/).endAsync()
+      .then((res) => {
+        expect(res.body).not.to.be.empty;
+        expect(res.body.message).to.be.equals('No token provided.');
+      });
+    });
+
+    it('DELETE /api/contentCodes/:id should respond 401', function() {
+      return server.delete(`/api/contentCodes/${randomId}`).expect(401).expect('Content-Type', /json/).endAsync()
       .then((res) => {
         expect(res.body).not.to.be.empty;
         expect(res.body.message).to.be.equals('No token provided.');
@@ -166,8 +226,8 @@ describe('Authentication', function() {
       return agentUtils.withCookies(server.get(`/api/admins/${randomId}`)).expect(404).endAsync();
     });
 
-    it('POST /api/admins/ should respond 400', function() {
-      return agentUtils.withCookies(server.post('/api/admins/')).expect(400).endAsync();
+    it('POST /api/admins should respond 400', function() {
+      return agentUtils.withCookies(server.post('/api/admins')).expect(400).endAsync();
     });
 
     it('PUT /api/admins/:id should respond 404', function() {
@@ -180,6 +240,42 @@ describe('Authentication', function() {
 
     it('DELETE /api/admins/:logged_admin_id should respond 400', function() {
       return agentUtils.withCookies(server.delete(`/api/admins/${admin._id}`)).expect(400).endAsync();
+    });
+
+    it('GET /api/contentCodes should respond 200', function() {
+      return agentUtils.withCookies(server.get('/api/contentCodes')).expect(200).endAsync();
+    });
+
+    it('GET /api/contentCodes/total should respond 200', function() {
+      return agentUtils.withCookies(server.get('/api/contentCodes/total')).expect(200).endAsync();
+    });
+
+    it('GET /api/contentCodes/:id should respond 404', function() {
+      return agentUtils.withCookies(server.get(`/api/contentCodes/${randomId}`)).expect(404).endAsync();
+    });
+
+    it('GET /api/contentCodes/code/:code should respond 200', function() {
+      return agentUtils.withCookies(server.get('/api/contentCodes/code/some_code')).expect(404).endAsync();
+    });
+
+    it('GET /api/contentCodes/code should respond 404', function() {
+      return agentUtils.withCookies(server.get('/api/contentCodes/code')).expect(400).endAsync();
+    });
+
+    it('GET /api/contentCodes/code/ should respond 404', function() {
+      return agentUtils.withCookies(server.get('/api/contentCodes/code/')).expect(400).endAsync();
+    });
+
+    it('POST /api/contentCodes should respond 400', function() {
+      return agentUtils.withCookies(server.post('/api/contentCodes')).expect(400).endAsync();
+    });
+
+    it('PUT /api/contentCodes/:id should respond 404', function() {
+      return agentUtils.withCookies(server.put(`/api/contentCodes/${randomId}`)).expect(404).endAsync();
+    });
+
+    it('DELETE /api/contentCodes/:id should respond 404', function() {
+      return agentUtils.withCookies(server.delete(`/api/contentCodes/${randomId}`)).expect(404).endAsync();
     });
 
   });

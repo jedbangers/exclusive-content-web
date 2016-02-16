@@ -823,6 +823,11 @@
         }
       }
     },
+    "mongoose-delete": {
+      "version": "0.2.2",
+      "from": "mongoose-delete@*",
+      "resolved": "https://registry.npmjs.org/mongoose-delete/-/mongoose-delete-0.2.2.tgz"
+    },
     "mongootils": {
       "version": "0.0.3",
       "from": "https://registry.npmjs.org/mongootils/-/mongootils-0.0.3.tgz",

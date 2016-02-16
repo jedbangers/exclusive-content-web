@@ -215,7 +215,7 @@ module.exports = {
    */
   handleError(type, cb) {
     return (err, req, res, next) => {
-      if (err.constructor.name === type.name) {
+      if ((err.name && err.name === type.name) || (err.constructor.name === type.name)) {
         return cb(err, req, res, next);
       } else {
         return next(err);

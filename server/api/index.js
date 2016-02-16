@@ -22,9 +22,20 @@ module.exports = function() {
 
   api.use(RouteUtils.enforceSSL({ port: config.server.ssl.port }));
 
-  api.use('/settings', require('./settings'));
-  api.use('/auth',     require('./auth'));
-  api.use('/admins',   Middlewares.Auth.ensureAuthenticated(), require('./admins'));
+  api.use('/settings',     require('./settings'));
+  api.use('/auth',         require('./auth'));
+  api.use('/admins',       Middlewares.Auth.ensureAuthenticated(), require('./admins'));
+
+  // Make /contentCodes an authenticated endpoint except for /contentCodes/code
+  api.use('/contentCodes', function(req, res, next) {
+    if (req.url.startsWith('/code')) {
+      return next();
+    } else {
+      return Middlewares.Auth.ensureAuthenticated()(req, res, next);
+    }
+  });
+
+  api.use('/contentCodes', require('./content_codes'));
 
   // Log errors
   api.use((err, req, res, next) => {

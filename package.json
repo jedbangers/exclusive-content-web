@@ -52,6 +52,8 @@
     "jsonwebtoken": "^5.0.1",
     "lodash": "^3.10.0",
     "mongoose": "^4.1.9",
+    "mongoose-delete": "^0.2.2",
+    "mongoose-shortid-nodeps": "^0.6.4",
     "mongootils": "0.0.3",
     "morgan": "^1.4.1",
     "ng-table-async": "0.0.6",
