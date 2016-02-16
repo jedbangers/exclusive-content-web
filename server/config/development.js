@@ -25,6 +25,6 @@ module.exports = {
     }
   },
   mongo: {
-    uri: 'mongodb://localhost/seed_dev'
+    uri: 'mongodb://localhost/jedbangers_exclusive_content_dev'
   }
 };

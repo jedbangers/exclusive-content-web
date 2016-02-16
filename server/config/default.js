@@ -46,10 +46,10 @@ module.exports = {
       passphrase  : process.env.SSL_PASSPHRASE
     },
     auth: {
-      issuer      : 'ExpressJS/AngularJS seed',
+      issuer      : 'jedbangers',
       tokenSecret : process.env.TOKEN_SECRET,
       expiration  : 30 * 60 * 1000,
-      cookieName  : 'seed_jwt'
+      cookieName  : 'jedbangers_jwt'
     }
   },
   mongo: {

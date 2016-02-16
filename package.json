@@ -1,7 +1,7 @@
 {
-  "name": "angular-express-passport-seed",
+  "name": "exclusive-content-web",
   "version": "0.0.0",
-  "description": "AngularJS/ExpressJS seed",
+  "description": "Web application for exclusive content disposition for Jedbangers Magazine",
   "main": "server/bin/web.js",
   "scripts": {
     "start": "grunt serve",
@@ -14,12 +14,11 @@
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/andresmatasuarez/angular-express-passport-seed.git"
+    "url": "git://github.com/jedbangers/exclusive-content-web.git"
   },
   "keywords": [
-    "angularjs",
-    "expressjs",
-    "seed"
+    "jedbangers",
+    "web"
   ],
   "author": "Andrés Mata Suárez <amatasuarez@gmail.com>",
   "license": "MIT",
@@ -27,9 +26,9 @@
     "node": "4.2.3"
   },
   "bugs": {
-    "url": "https://github.com/andresmatasuarez/angular-express-passport-seed/issues"
+    "url": "https://github.com/jedbangers/exclusive-content-web/issues"
   },
-  "homepage": "https://github.com/andresmatasuarez/angular-express-passport-seed",
+  "homepage": "https://github.com/jedbangers/exclusive-content-web",
   "dependencies": {
     "angular": "^1.5.0",
     "angular-animate": "^1.5.0",

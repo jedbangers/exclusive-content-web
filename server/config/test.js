@@ -10,6 +10,6 @@ module.exports = {
     }
   },
   mongo: {
-    uri: 'mongodb://localhost/seed_test'
+    uri: 'mongodb://localhost/jedbangers_exclusive_content_test'
   }
 };
