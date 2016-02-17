@@ -62,3 +62,41 @@ module.exports = (Restangular) ->
 
     delete: (id) ->
       api.one('admins', id).remove()
+
+  contentCodes:
+    total: ->
+      api.one('contentCodes', 'total').get()
+      .then _.property('total')
+
+    list: (skip, limit) ->
+      api.customGETLIST 'contentCodes',
+        skip  : skip
+        limit : limit
+
+    get: (id) ->
+      api.one('contentCodes', id).get()
+
+    create: (contentCode) ->
+      body = $.param
+        name    : contentCode.name
+        code    : contentCode.code
+        content : contentCode.content
+
+      headers =
+        'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+
+      api.one('contentCodes').customPOST body, undefined, undefined, headers
+
+    edit: (id, contentCode) ->
+      body = $.param
+        name    : contentCode.name
+        code    : contentCode.code
+        content : contentCode.content
+
+      headers =
+        'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+
+      api.one('contentCodes', id).customPUT body, undefined, undefined, headers
+
+    delete: (id) ->
+      api.one('contentCode', id).remove()

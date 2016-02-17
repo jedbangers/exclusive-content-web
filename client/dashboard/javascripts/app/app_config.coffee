@@ -1,11 +1,13 @@
 'use strict'
 
-templateLogin         = require '../../partials/_login.jade'
-templateDashboard     = require '../../partials/_dashboard.jade'
-templateHome          = require '../../partials/_home.jade'
-templateBreadcrumbs   = require '../../partials/_breadcrumbs.jade'
-templateAdminsList    = require '../../partials/_admins_list.jade'
-templateAdminsProfile = require '../../partials/_admins_profile.jade'
+templateLogin               = require '../../partials/_login.jade'
+templateDashboard           = require '../../partials/_dashboard.jade'
+templateHome                = require '../../partials/_home.jade'
+templateBreadcrumbs         = require '../../partials/_breadcrumbs.jade'
+templateAdminsList          = require '../../partials/_admins_list.jade'
+templateAdminsProfile       = require '../../partials/_admins_profile.jade'
+templateContentCodesList    = require '../../partials/_content_codes_list.jade'
+templateContentCodesProfile = require '../../partials/_content_codes_profile.jade'
 
 resolveAuthenticationAndEmitIf = (eventToEmit, emitIfAuthenticated) ->
   # Manual dependency injection annotations, as ngAnnotate is having problems
@@ -40,14 +42,10 @@ module.exports = ($locationProvider, $urlRouterProvider, $stateProvider, cfpLoad
     url         : '/login'
     templateUrl : templateLogin
     controller  : 'LoginController'
-    # resolve     :
-    #   auth: resolveAuthenticationAndEmitIf 'already_logged', true
 
   $stateProvider.state 'dashboard',
     abstract      : true
     templateUrl   : templateDashboard
-    # resolve       :
-    #   auth: resolveAuthenticationAndEmitIf 'unauthorized', false
     ncyBreadcrumb :
       skip : true
 
@@ -55,8 +53,6 @@ module.exports = ($locationProvider, $urlRouterProvider, $stateProvider, cfpLoad
     parent        : 'dashboard'
     url           : '/'
     templateUrl   : templateHome
-    # resolve       :
-    #   auth: resolveAuthenticationAndEmitIf 'unauthorized', false
     ncyBreadcrumb :
       label: 'Dashboard'
 
@@ -65,8 +61,6 @@ module.exports = ($locationProvider, $urlRouterProvider, $stateProvider, cfpLoad
     abstract      : true
     url           : '/admins'
     templateUrl   : templateBreadcrumbs
-    # resolve       :
-    #   auth: resolveAuthenticationAndEmitIf 'unauthorized', false
     ncyBreadcrumb :
       skip: true
 
@@ -74,8 +68,6 @@ module.exports = ($locationProvider, $urlRouterProvider, $stateProvider, cfpLoad
     url           : '/list'
     templateUrl   : templateAdminsList
     controller    : 'AdminsListController'
-    # resolve       :
-    #   auth: resolveAuthenticationAndEmitIf 'unauthorized', false
     ncyBreadcrumb :
       label: 'Admins'
 
@@ -84,7 +76,6 @@ module.exports = ($locationProvider, $urlRouterProvider, $stateProvider, cfpLoad
     templateUrl   : templateAdminsProfile
     controller    : 'AdminsProfileController'
     resolve       :
-      # auth: resolveAuthenticationAndEmitIf 'unauthorized', false
       admin: -> undefined
     ncyBreadcrumb :
       parent : 'admins.list'
@@ -95,8 +86,42 @@ module.exports = ($locationProvider, $urlRouterProvider, $stateProvider, cfpLoad
     templateUrl   : templateAdminsProfile
     controller    : 'AdminsProfileController'
     resolve       :
-      # auth: resolveAuthenticationAndEmitIf 'unauthorized', false
       admin: ($stateParams, API) -> API.admins.get($stateParams.id)
     ncyBreadcrumb :
       parent : 'admins.list'
+      label  : 'Edit'
+
+  $stateProvider.state 'contentCodes',
+    parent        : 'dashboard'
+    abstract      : true
+    url           : '/contentCodes'
+    templateUrl   : templateBreadcrumbs
+    ncyBreadcrumb :
+      skip: true
+
+  $stateProvider.state 'contentCodes.list',
+    url           : '/list'
+    templateUrl   : templateContentCodesList
+    controller    : 'ContentCodesListController'
+    ncyBreadcrumb :
+      label: 'ContentCodes'
+
+  $stateProvider.state 'contentCodes.add',
+    url           : '/add'
+    templateUrl   : templateContentCodesProfile
+    controller    : 'ContentCodesProfileController'
+    resolve       :
+      contentCode: -> undefined
+    ncyBreadcrumb :
+      parent : 'contentCodes.list'
+      label  : 'New'
+
+  $stateProvider.state 'contentCodes.edit',
+    url           : '/edit/:id'
+    templateUrl   : templateContentCodesProfile
+    controller    : 'ContentCodesProfileController'
+    resolve       :
+      contentCode: ($stateParams, API) -> API.contentCodes.get($stateParams.id)
+    ncyBreadcrumb :
+      parent : 'contentCodes.list'
       label  : 'Edit'

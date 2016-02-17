@@ -27,9 +27,11 @@ api = require '../modules/api'
 authService = require '../services/auth_service'
 
 # Controllers
-loginController         = require '../controllers/login_controller'
-adminsListController    = require '../controllers/admins_list_controller'
-adminsProfileController = require '../controllers/admins_profile_controller'
+loginController               = require '../controllers/login_controller'
+adminsListController          = require '../controllers/admins_list_controller'
+adminsProfileController       = require '../controllers/admins_profile_controller'
+contentCodesListController    = require '../controllers/content_codes_list_controller'
+contentCodesProfileController = require '../controllers/content_codes_profile_controller'
 
 # Directives
 navbar         = require '../directives/navbar'
@@ -56,9 +58,11 @@ angular
   api
 ]
 
-.controller 'LoginController',         loginController
-.controller 'AdminsListController',    adminsListController
-.controller 'AdminsProfileController', adminsProfileController
+.controller 'LoginController',               loginController
+.controller 'AdminsListController',          adminsListController
+.controller 'AdminsProfileController',       adminsProfileController
+.controller 'ContentCodesListController',    contentCodesListController
+.controller 'ContentCodesProfileController', contentCodesProfileController
 
 .factory    'AuthService',             authService
 .directive  'navbar',                  navbar

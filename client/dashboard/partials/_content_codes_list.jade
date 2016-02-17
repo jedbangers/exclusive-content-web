@@ -1,0 +1,27 @@
+.page-header
+  button.btn.btn-default.pull-right(ng-click="addContentCode()")
+    i.glyphicon.glyphicon-plus
+    | #{' '}
+    | New content code
+  h1 Content codes
+
+ng-table-async.contentCodes-list(options="tableOptions")
+  nta-column(header="'_id'"  content="item._id")
+  nta-column(header="'Name'" content="item.name")
+  nta-column(header="'Code'" content="item.code")
+  nta-column(header="'URL'"  content="item.content.url")
+  nta-column(header="'Actions'")
+    nta-action(
+      label  = "View/Edit"
+      action = "inspect"
+      size   = "xs"
+      icon   = "glyphicon glyphicon-eye-open"
+    )
+    | &nbsp;
+    nta-action(
+      label  = "Remove"
+      action = "remove"
+      size   = "xs"
+      icon   = "glyphicon glyphicon-trash"
+      style  = "danger"
+    )
