@@ -48,21 +48,9 @@ module.exports = function(app) {
     index  : false
   }));
 
-  // Static routes
-  app.use('/public/redeem', express.static('/home/amatasuarez/workspace/jedbangers/exclusive-content-web/server/assets', {
-    etag   : true,
-    maxage : config.app.assets.maxAge,
-    index  : false
-  }));
-
-  app.use('/public/redeem', (req, res) => {
-    res.render('redeem', {
-      settings: config.app.redeem
-    });
-  });
-
   app.use('/dashboard', serveBundledView('index', 'dashboard', config.app.assets.mappings));
   app.use('/web',       serveBundledView('index', 'web',       config.app.assets.mappings));
+  app.use('/redeem',    serveBundledView('index', 'redeem',    config.app.assets.mappings));
 
   // URL rewrite for non-HTML5 browsers
   // Just send the index.html for other files to support HTML5Mode

@@ -36,7 +36,7 @@ module.exports = {
     },
     redeem: {
       title : 'Redeem code',
-      base  : '/public/redeem/'
+      base  : '/redeem/'
     }
   },
   server: {
