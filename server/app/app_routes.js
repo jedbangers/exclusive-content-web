@@ -4,6 +4,7 @@ const config     = require('config');
 const path       = require('path');
 const express    = require('express');
 const fs         = require('fs');
+const superagent = require('superagent');
 const favicon    = require('serve-favicon');
 const RouteUtils = require('../utils/route_utils');
 const api        = require('../api');
@@ -51,6 +52,10 @@ module.exports = function(app) {
   app.use('/dashboard', serveBundledView('index', 'dashboard', config.app.assets.mappings));
   app.use('/web',       serveBundledView('index', 'web',       config.app.assets.mappings));
   app.use('/redeem',    serveBundledView('index', 'redeem',    config.app.assets.mappings));
+
+  app.use('/proxy', (req, res) => {
+    superagent.get('http://dl.dropbox.com/u/1538714/article_resources/song.m4a').pipe(res);
+  });
 
   // URL rewrite for non-HTML5 browsers
   // Just send the index.html for other files to support HTML5Mode

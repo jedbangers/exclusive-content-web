@@ -4,6 +4,11 @@
       img.logo(alt="Jedbangers" src="./assets/images/logo.png")
 
     .row
+      audio(controls)
+        source(src="/stream" type="audio/mpeg")
+        | Your browser does not support the audio element.
+
+    .row
       form.content-code-form
 
         .form-group

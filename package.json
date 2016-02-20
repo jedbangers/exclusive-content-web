@@ -66,6 +66,7 @@
     "restangular": "^1.5.1",
     "serve-favicon": "^2.3.0",
     "simple-response": "0.0.3",
+    "superagent": "^1.7.2",
     "validator": "^3.22.1",
     "winston": "^0.8.1"
   },
