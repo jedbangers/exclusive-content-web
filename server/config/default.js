@@ -33,6 +33,10 @@ module.exports = {
     },
     api: {
       base: '/api'
+    },
+    redeem: {
+      title : 'Redeem code',
+      base  : '/public/redeem/'
     }
   },
   server: {

@@ -1,0 +1,37 @@
+doctype html
+html
+  head
+    base(href="#{settings.base}")
+    meta(charset="utf-8")
+    meta(name="viewport" content="width=device-width")
+
+    title #{settings.title}
+
+    link(rel="stylesheet" href="stylesheets/redeem.css")
+    link(
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"
+      integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7"
+      crossorigin="anonymous"
+    )
+
+  body
+    .container
+      .col-md-12
+        .row
+          img.logo(alt="Jedbangers" src="images/logo.png")
+
+        .row
+          form.content-code-form
+
+            .form-group
+              label(for="") Codigo exclusivo
+              input.input-lg.form-control(type="text" placeholder="ej: O6Z6Z6Y")
+              //- p.help-block Example block-level help text here.
+
+            button.btn.btn-lg.btn-default Canjear codigo
+
+
+    script.
+
+

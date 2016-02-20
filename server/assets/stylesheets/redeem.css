@@ -1,0 +1,13 @@
+body {
+  background-image: url('../images/bg.png');
+  text-align: center;
+}
+
+.form-group {
+  text-align: left;
+}
+
+.content-code-form {
+  max-width : 320px;
+  margin    : 0 auto;
+}
