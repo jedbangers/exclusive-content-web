@@ -49,8 +49,8 @@ module.exports = function(app) {
     index  : false
   }));
 
+  // app.use('/web',       serveBundledView('index', 'web',       config.app.assets.mappings));
   app.use('/dashboard', serveBundledView('index', 'dashboard', config.app.assets.mappings));
-  app.use('/web',       serveBundledView('index', 'web',       config.app.assets.mappings));
   app.use('/redeem',    serveBundledView('index', 'redeem',    config.app.assets.mappings));
 
   app.use('/streamContent/:code', (req, res) => {
