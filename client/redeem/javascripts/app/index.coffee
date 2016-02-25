@@ -1,5 +1,8 @@
 'use strict'
 
+require 'angular-spinner'
+require 'angular-loading-spinner'
+
 angular                      = require 'angular'
 connectionRefusedInterceptor = require '../../../commons/javascripts/modules/connection_refused_interceptor'
 errorModal                   = require '../../../commons/javascripts/modules/error_modal'
@@ -7,6 +10,8 @@ redeemCodeController         = require '../controllers/redeem_code_controller'
 
 angular
 .module 'codeRedeemer', [
+  'angularSpinner'
+  'ngLoadingSpinner'
   connectionRefusedInterceptor
   errorModal
 ]

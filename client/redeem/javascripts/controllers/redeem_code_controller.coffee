@@ -5,6 +5,8 @@ module.exports = ($http) ->
   this.doRedeem = =>
     this.clearErrors()
 
+    this.loading = true
+
     $http
       method: 'GET'
       url: "/api/contentCodes/code/#{this.code}"
@@ -16,6 +18,9 @@ module.exports = ($http) ->
         this.error =
           title   : "An #{err.status} error has occurred"
           message : if err.data && err.data.message then err.data.message else err.statusText
+
+    .then =>
+      delete this.loading
 
   this.clearErrors = =>
     delete this.error

@@ -1,5 +1,7 @@
 @import '~bootstrap/less/bootstrap.less';
 
+@redeemCodeContainerMinHeight: 50px;
+
 body {
   background-image : url(../assets/images/bg.png);
   text-align       : center;
@@ -9,9 +11,23 @@ body {
     text-align: left;
   }
 
-  .content-code-form {
-    max-width : 320px;
-    margin    : 0 auto;
+  .redeem-code-container {
+    max-width  : 320px;
+    min-height : @redeemCodeContainerMinHeight;
+    margin     : 0 auto;
+
+    .loading-spinner {
+      position: relative;
+
+      // Override spin.js settings
+      .spinner {
+        width   : inherit !important;
+        z-index : 2000000000 !important;
+        left    : 50% !important;
+        top     : @redeemCodeContainerMinHeight / 2 !important;
+      }
+
+    }
   }
 
   .vertical-space {

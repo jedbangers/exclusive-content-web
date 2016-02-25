@@ -55,7 +55,12 @@ module.exports = {
   },
   resolve: {
     extensions         : [ '', '.js', '.json', '.coffee' ],
-    modulesDirectories : [ 'node_modules' ]
+    modulesDirectories : [ 'node_modules' ],
+
+    // https://github.com/urish/angular-spinner/pull/80
+    alias: {
+      spin: 'spin.js'
+    }
   },
   plugins: [
     new AssetsWebpackPlugin({ path: './bundle' }),

@@ -5,9 +5,12 @@
 
     .row.vertical-space
 
-    .row(ng-controller="RedeemCodeController as redeemCode")
-      form.content-code-form(
-        ng-if     = "!redeemCode.contentCode"
+    .row.redeem-code-container(ng-controller="RedeemCodeController as redeemCode")
+      .loading-spinner(ng-if="redeemCode.loading")
+        span(us-spinner="{ lines: 6, speed: 2, length: 0, width: 10, radius: 10 }")
+
+      form(
+        ng-if     = "!redeemCode.loading && !redeemCode.contentCode"
         name      = "redeemCode.contentCodeForm"
         ng-submit = "redeemCode.doRedeem()"
       )
@@ -39,7 +42,7 @@
           ng-disabled = "!redeemCode.code"
         ) Canjear codigo
 
-      div(ng-if="redeemCode.contentCode")
+      div(ng-if="!redeemCode.loading && redeemCode.contentCode")
         h3 {{ redeemCode.contentCode.name }}
         audio(controls)
           source(ng-src="{{ redeemCode.contentSource() }}" type="audio/mpeg")
