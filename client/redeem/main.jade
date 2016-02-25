@@ -16,7 +16,7 @@
       )
 
         .alert.alert-danger.alert-dismissable(ng-show="redeemCode.error")
-          button.close(ng-click="redeemCode.clearErrors()") &times;
+          button.close(type="button" ng-click="redeemCode.clearErrors()") &times;
           .text-left
             small.glyphicon.glyphicon-exclamation-sign
             small.sr-only Error
