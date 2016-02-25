@@ -31,7 +31,8 @@
           ng-click    = "redeemCode.doRedeem()"
         ) Canjear codigo
 
-      audio(ng-if="redeemCode.contentCode" controls)
-        h3 redeemCode.contentCode.name
-        source(ng-src="{{ redeemCode.contentSource() }}" type="audio/mpeg")
-        | Your browser does not support the audio element.
+      div(ng-if="redeemCode.contentCode")
+        h3 {{ redeemCode.contentCode.name }}
+        audio(controls)
+          source(ng-src="{{ redeemCode.contentSource() }}" type="audio/mpeg")
+          | Your browser does not support the audio element.
