@@ -14,7 +14,7 @@ module.exports = ($http) ->
     .catch (err) =>
       if err.status != -1
         this.error =
-          title   : "An #{err.status} error has occurred:"
+          title   : "An #{err.status} error has occurred"
           message : if err.data && err.data.message then err.data.message else err.statusText
 
   this.clearErrors = =>

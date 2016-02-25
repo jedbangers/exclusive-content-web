@@ -6,16 +6,25 @@
     .row.vertical-space
 
     .row(ng-controller="RedeemCodeController as redeemCode")
-      form.content-code-form(ng-if="!redeemCode.contentCode" name="redeemCode.contentCodeForm")
+      form.content-code-form(
+        ng-if     = "!redeemCode.contentCode"
+        name      = "redeemCode.contentCodeForm"
+        ng-submit = "redeemCode.doRedeem()"
+      )
 
         .alert.alert-danger.alert-dismissable(ng-show="redeemCode.error")
           button.close(ng-click="redeemCode.clearErrors()") &times;
-          span.glyphicon.glyphicon-exclamation-sign
-          span.sr-only Error
-          | &nbsp;
-          | {{ redeemCode.error.title }}
-          br
-          | {{ redeemCode.error.message }}
+          .text-left
+            small.glyphicon.glyphicon-exclamation-sign
+            small.sr-only Error
+            small &nbsp;
+            small {{ redeemCode.error.title }}
+
+
+          .text-center
+            small &nbsp; &nbsp; &nbsp; &nbsp;
+            small
+              strong {{ redeemCode.error.message }}
 
         .form-group
           label(for="") Codigo exclusivo
@@ -28,7 +37,6 @@
         button.btn.btn-lg.btn-default(
           type        = "submit"
           ng-disabled = "!redeemCode.code"
-          ng-click    = "redeemCode.doRedeem()"
         ) Canjear codigo
 
       div(ng-if="redeemCode.contentCode")
