@@ -53,7 +53,7 @@ module.exports = function(app) {
   app.use('/web',       serveBundledView('index', 'web',       config.app.assets.mappings));
   app.use('/redeem',    serveBundledView('index', 'redeem',    config.app.assets.mappings));
 
-  app.use('/proxy', (req, res) => {
+  app.use('/streamContent/:code', (req, res) => {
     superagent.get('http://dl.dropbox.com/u/1538714/article_resources/song.m4a').pipe(res);
   });
 

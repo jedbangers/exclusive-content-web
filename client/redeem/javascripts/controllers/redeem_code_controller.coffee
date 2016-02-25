@@ -22,7 +22,7 @@ module.exports = ($http) ->
   this.clearErrors = =>
     delete this.error
 
-  this.contentSource = => "/proxy"
+  this.contentSource = => "/streamContent/#{this.contentCode.code}"
 
   # "NOTE!: Considering CoffeeScript automatically returns the last line,
   # we must place a return statement at the bottom so the controller doesn't
