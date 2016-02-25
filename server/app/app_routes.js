@@ -41,6 +41,7 @@ module.exports = function(app) {
 
   // Secured content
   app.use(config.app.dashboard.base, enforceSSL);
+  app.use(config.app.redeem.base,    enforceSSL);
 
   // Serve assets
   app.use('/', express.static(config.app.assets.path, {
