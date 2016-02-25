@@ -3,17 +3,35 @@
     .row
       img.logo(alt="Jedbangers" src="./assets/images/logo.png")
 
-    .row
-      audio(controls)
-        source(src="/stream" type="audio/mpeg")
-        | Your browser does not support the audio element.
+    .vertical-space
 
-    .row
-      form.content-code-form
+    .row(ng-controller="RedeemCodeController as redeemCode")
+      form.content-code-form(ng-if="!redeemCode.contentCode" name="redeemCode.contentCodeForm")
+
+        .alert.alert-danger.alert-dismissable(ng-show="redeemCode.error")
+          button.close(ng-click="redeemCode.clearErrors()") &times;
+          span.glyphicon.glyphicon-exclamation-sign
+          span.sr-only Error
+          | &nbsp;
+          | An {{ redeemCode.error.status }} error has occurred:
+          br
+          | {{ redeemCode.error.message }}
 
         .form-group
           label(for="") Codigo exclusivo
-          input.input-lg.form-control(type="text" placeholder="ej: O6Z6Z6Y")
-          //- p.help-block Example block-level help text here.
+          input.input-lg.form-control(
+            type        = "text"
+            ng-model    = "redeemCode.code"
+            placeholder = "ej: O6Z6Z6Y"
+          )
 
-        button.btn.btn-lg.btn-default Canjear codigo
+        button.btn.btn-lg.btn-default(
+          type        = "submit"
+          ng-disabled = "!redeemCode.code"
+          ng-click    = "redeemCode.doRedeem()"
+        ) Canjear codigo
+
+      audio(ng-if="redeemCode.contentCode" controls)
+        h3 redeemCode.contentCode.name
+        source(ng-src="{{ redeemCode.contentSource() }}" type="audio/mpeg")
+        | Your browser does not support the audio element.
