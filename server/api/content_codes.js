@@ -52,7 +52,8 @@ router.get('/code/:code',
     fields     : Settings.ContentCode.paths.join(' ')
   }),
   (req, res) => {
-    Response.Ok(res)(req.fetchedContentCode);
+    const cc = _.omit(req.fetchedContentCode.toObject(), 'content');
+    Response.Ok(res)(cc);
   }
 );
 

@@ -151,7 +151,7 @@ describe('/api/contentCodes', function() {
       });
     });
 
-    it('/code/:code should return content code with _id = :id', function() {
+    it('/code/:code should return content code with _id = :id without its "content"', function() {
       const cc = _.first(contentCodes);
       return agentUtils.withCookies(server.get(`/api/contentCodes/code/${cc.code}`))
       .expect(200)
@@ -159,7 +159,8 @@ describe('/api/contentCodes', function() {
       .endAsync()
       .then((res) => {
         TestUtils.assertObjectIds(cc._id, res.body._id);
-        TestUtils.assertUnorderedArrays(_.keys(res.body), Settings.ContentCode.paths);
+        expect(res.body.content).to.be.undefined;
+        TestUtils.assertUnorderedArrays(_.keys(res.body), [ '_id', 'name', 'code' ]);
       });
     });
 
