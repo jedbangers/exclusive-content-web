@@ -9,15 +9,13 @@ module.exports = ($http) ->
       method: 'GET'
       url: "/api/contentCodes/code/#{this.code}"
     .then (res) =>
-      console.log(1, res);
-      this.body = res.data
       this.contentCode = res.data
 
     .catch (err) =>
-      console.log(2, err);
-      this.error =
-        status  : err.status
-        message : if err.data && err.data.message then err.data.message else err.statusText
+      if err.status != -1
+        this.error =
+          title   : "An #{err.status} error has occurred:"
+          message : if err.data && err.data.message then err.data.message else err.statusText
 
   this.clearErrors = =>
     delete this.error
