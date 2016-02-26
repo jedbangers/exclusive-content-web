@@ -13,6 +13,7 @@ function resolvePath(p) {
 
 module.exports = {
   entry: {
+
     // web       : resolvePath('client/web/entry'),
     dashboard : resolvePath('client/dashboard/entry'),
     redeem    : resolvePath('client/redeem/entry')
