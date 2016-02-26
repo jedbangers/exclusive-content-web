@@ -1,6 +1,7 @@
 'use strict';
 
 const _              = require('lodash');
+const Bluebird       = require('bluebird');
 const mongoose       = require('mongoose');
 const mongooseDelete = require('mongoose-delete');
 const ShortId        = require('mongoose-shortid-nodeps');
@@ -32,5 +33,8 @@ function transform(doc, ret) {
 
 schema.set('toJSON',   { transform });
 schema.set('toObject', { transform });
+
+// Promisify mongoose-delete methods
+Bluebird.promisifyAll(schema.methods);
 
 module.exports = schema;
