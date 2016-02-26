@@ -99,4 +99,4 @@ module.exports = (Restangular) ->
       api.one('contentCodes', id).customPUT body, undefined, undefined, headers
 
     delete: (id) ->
-      api.one('contentCode', id).remove()
+      api.one('contentCodes', id).remove()
