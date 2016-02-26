@@ -10,7 +10,7 @@ const AdminSeed       = require('../seeds/admin');
 const Log             = require('../server/utils/log');
 const ContentCodeSeed = require('../seeds/content_code');
 
-const adminsToSeed            = process.argv[2] || 3;
+const adminsToSeed       = process.argv[2] || 3;
 const contentCodesToSeed = process.argv[3] || 15;
 
 new Mongootils(config.mongo.uri, config.mongo.options)
