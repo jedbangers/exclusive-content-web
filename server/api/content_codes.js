@@ -58,7 +58,7 @@ router.get('/code/:code',
 );
 
 router.post('/', (req, res, next) => {
-  const cc = new ContentCode(req.body);
+  const cc = new ContentCode(_.omit(req.body, 'code'));
   cc.saveAsync()
   .then(Response.Ok(res))
   .catch(next);
@@ -71,7 +71,8 @@ router.put('/:id',
     populateTo : 'fetchedContentCode'
   }),
   (req, res, next) => {
-    _.merge(req.fetchedContentCode, req.body);
+    const updateObj = _.omit(req.body, 'code');
+    _.merge(req.fetchedContentCode, updateObj);
     req.fetchedContentCode.saveAsync()
     .then(_.first)
     .then(Response.Ok(res))

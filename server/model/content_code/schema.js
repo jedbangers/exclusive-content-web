@@ -6,7 +6,6 @@ const mongooseDelete = require('mongoose-delete');
 const ShortId        = require('mongoose-shortid-nodeps');
 const Settings       = require('../../settings');
 const validations    = require('./validations');
-const hooks          = require('./hooks');
 
 const schema = new mongoose.Schema({
   code: {
@@ -25,7 +24,6 @@ const schema = new mongoose.Schema({
 });
 
 schema.plugin(validations);
-schema.plugin(hooks);
 schema.plugin(mongooseDelete, { overrideMethods: 'all' });
 
 function transform(doc, ret) {

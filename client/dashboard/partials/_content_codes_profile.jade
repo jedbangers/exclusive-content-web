@@ -5,6 +5,12 @@ form.form-horizontal(name="form" role="form" novalidate)
 
   .init(ng-init="extendForm(form)")
 
+  .form-group(ng-if="model.code")
+    .col-md-2.text-right
+      label.control-label(for="code") Code
+    .col-md-4
+      p.form-control-static(ng-bind="model.code")
+
   .form-group(ng-class="{ 'has-error': form.hasError('name') }")
     .col-md-2.text-right
       label.control-label(for="name") Name *
@@ -19,23 +25,7 @@ form.form-horizontal(name="form" role="form" novalidate)
     .col-md-6
       .help-block(ng-show="form.hasError('name')" ng-messages="form.name.$error")
         i.fa.fa-warning &nbsp;
-        span(ng-message="required") Code cannot be empty.
-
-  .form-group(ng-class="{ 'has-error': form.hasError('code') }")
-    .col-md-2.text-right
-      label.control-label(for="code") Code *
-    .col-md-4
-      input.form-control(
-        type="text"
-        name="code"
-        ng-model="model.code"
-        ng-model-options="{ updateOn: 'default blur', debounce: { default: 1000, blur: 0 } }"
-        required
-      )
-    .col-md-6
-      .help-block(ng-show="form.hasError('code')" ng-messages="form.code.$error")
-        i.fa.fa-warning &nbsp;
-        span(ng-message="required") Code cannot be empty.
+        span(ng-message="required") Name cannot be empty.
 
   .form-group(ng-class="{ 'has-error': form.hasError('content.url') }")
     .col-md-2.text-right
