@@ -16,21 +16,14 @@ const Settings        = require('../../../server/settings');
 const TestUtils       = require('../../../tests/utils');
 const SuperAgentUtils = require('../superagent_utils');
 
-const server = request(App.server.https);
-const agent  = request.agent(App.server.https);
-
-const agentUtils = new SuperAgentUtils(agent);
-
-function performLogin(admin, password) {
-  return server
-  .post('/api/auth/login')
-  .send({
-    email: admin.email,
-    password
-  })
-  .endAsync()
-  .then(agentUtils.saveCookies.bind(agentUtils));
-}
+const server     = request(App.server.https);
+const agent      = request.agent(App.server.https);
+const agentUtils = new SuperAgentUtils(agent, {
+  login: {
+    url: '/api/auth/login',
+    usernameField: 'email'
+  }
+});
 
 describe('/api/contentCodes', function() {
 
@@ -51,7 +44,7 @@ describe('/api/contentCodes', function() {
           Settings.ContentCode.paths,
           (item) => item.name
         );
-        return performLogin(adminSeeded, 'test');
+        return agentUtils.performLogin(adminSeeded.email, 'test');
       });
     });
 
