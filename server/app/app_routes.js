@@ -1,11 +1,9 @@
 'use strict';
 
 const config     = require('config');
-const path       = require('path');
 const express    = require('express');
 const fs         = require('fs');
 const superagent = require('superagent');
-const favicon    = require('serve-favicon');
 const RouteUtils = require('../utils/route_utils');
 const api        = require('../api');
 
@@ -29,15 +27,6 @@ function serveBundledView(view, page, bundleMappingsPath) {
 }
 
 module.exports = function(app) {
-
-  if (config.app.favicon) {
-    app.use(favicon(path.join(__dirname, config.app.favicon)));
-  } else {
-    app.use('favicon.ico', function(req, res) {
-      res.status(200);
-      res.type('image/x-icon');
-    });
-  }
 
   // Secured content
   app.use(config.app.dashboard.base, enforceSSL);

@@ -11,6 +11,7 @@ module.exports = {
   environments: Environments,
   root: projectRoot,
   app: {
+    favicon: path.join(projectRoot, './server/assets/favicon.ico'),
     assets: {
       path     : path.join(projectRoot, './bundle'),
       mappings : path.join(projectRoot, './bundle/webpack-assets.json'),
