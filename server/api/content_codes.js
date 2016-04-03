@@ -1,6 +1,7 @@
 'use strict';
 
 const _           = require('lodash');
+const Bluebird    = require('bluebird');
 const express     = require('express');
 const Response    = require('simple-response');
 const ContentCode = require('../model/content_code');
@@ -71,9 +72,11 @@ router.put('/:id',
     populateTo : 'fetchedContentCode'
   }),
   (req, res, next) => {
-    const updateObj = _.omit(req.body, 'code');
-    _.merge(req.fetchedContentCode, updateObj);
-    req.fetchedContentCode.saveAsync()
+    Bluebird.try(() => {
+      const updateObj = _.omit(req.body, 'code');
+      _.merge(req.fetchedContentCode, updateObj);
+      return req.fetchedContentCode.saveAsync();
+    })
     .then(_.first)
     .then(Response.Ok(res))
     .catch(next);

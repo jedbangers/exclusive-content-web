@@ -8,6 +8,8 @@ require 'ngstorage'
 require 'restangular'
 require 'angular-loading-bar'
 
+require 'angular-spinner'
+
 # Fix this ugly bit of code
 require 'ng-table-async/node_modules/ng-table/dist/ng-table'
 require 'ng-table-async'
@@ -36,6 +38,7 @@ contentCodesProfileController = require '../controllers/content_codes_profile_co
 # Directives
 navbar         = require '../directives/navbar'
 compareToModel = require '../directives/compare_to_model'
+imageLoading   = require '../directives/image_loading'
 
 # App
 appRun    = require './app_run'
@@ -51,6 +54,7 @@ angular
   'ngMessages'
   'ngTableAsync'
   'ncy-angular-breadcrumb'
+  'angularSpinner'
   connectionRefusedInterceptor
   errorModal
   confirmationModal
@@ -64,9 +68,10 @@ angular
 .controller 'ContentCodesListController',    contentCodesListController
 .controller 'ContentCodesProfileController', contentCodesProfileController
 
-.factory    'AuthService',             authService
-.directive  'navbar',                  navbar
-.directive  'compareToModel',          compareToModel
+.factory    'AuthService',    authService
+.directive  'navbar',         navbar
+.directive  'compareToModel', compareToModel
+.directive  'imageLoading',   imageLoading
 
 .config appConfig
 .run appRun

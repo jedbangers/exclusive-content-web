@@ -12,37 +12,85 @@ form.form-horizontal(name="form" role="form" novalidate)
       p.form-control-static(ng-bind="model.code")
 
   .form-group(ng-class="{ 'has-error': form.hasError('name') }")
-    .col-md-2.text-right
-      label.control-label(for="name") Name *
-    .col-md-4
-      input.form-control(
-        type="text"
-        name="name"
-        ng-model="model.name"
-        ng-model-options="{ updateOn: 'default blur', debounce: { default: 1000, blur: 0 } }"
-        required
-      )
-    .col-md-6
-      .help-block(ng-show="form.hasError('name')" ng-messages="form.name.$error")
-        i.fa.fa-warning &nbsp;
-        span(ng-message="required") Name cannot be empty.
+    .row
+      .col-md-2.text-right
+        label.control-label(for="name") Name *
+      .col-md-4
+        input.form-control(
+          type="text"
+          name="name"
+          ng-model="model.name"
+          ng-model-options="{ updateOn: 'default blur', debounce: { default: 1000, blur: 0 } }"
+          required
+        )
+    .row
+      .col-md-4.col-md-offset-2
+        .help-block(ng-show="form.hasError('name')" ng-messages="form.name.$error")
+          i.fa.fa-warning &nbsp;
+          span(ng-message="required") Name cannot be empty.
 
   .form-group(ng-class="{ 'has-error': form.hasError('content.url') }")
-    .col-md-2.text-right
-      label.control-label(for="content.url") Content URL *
-    .col-md-4
-      input.form-control(
-        type="text"
-        name="content.url"
-        ng-model="model.content.url"
-        ng-model-options="{ updateOn: 'default blur', debounce: { default: 1000, blur: 0 } }"
-        required
-      )
-    .col-md-6
-      .help-block(ng-show="form.hasError('content.url')" ng-messages="form.content.url.$error")
-        i.fa.fa-warning &nbsp;
-        span(ng-message="required") Content URL cannot be empty.
-        span(ng-message="invalid") Content URL is not a valid URL.
+    .row
+      .col-md-2.text-right
+        label.control-label(for="content.url") Content URL *
+      .col-md-4
+        input.form-control(
+          type="text"
+          name="content.url"
+          ng-model="model.content.url"
+          ng-model-options="{ updateOn: 'default blur', debounce: { default: 1000, blur: 0 } }"
+          required
+        )
+    .row
+      .col-md-4.col-md-offset-2
+        .help-block(ng-show="form.hasError('content.url')" ng-messages="form.content.url.$error")
+          i.fa.fa-warning &nbsp;
+          span(ng-message="required") Content URL cannot be empty.
+          span(ng-message="invalid") Content URL is not a valid URL.
+
+  .form-group(ng-class="{ 'has-error': form.hasError('description') }")
+    .row
+      .col-md-2.text-right
+        label.control-label(for="description") Description
+      .col-md-4
+        textarea.form-control(
+          name="description"
+          ng-maxlength="descriptionMaxLength"
+          ng-model="model.description"
+        )
+    .row
+      .col-md-4.col-md-offset-2
+        .help-block(ng-show="form.hasError('description')" ng-messages="form.description.$error")
+          i.fa.fa-warning &nbsp;
+          span(ng-message="maxlength") Description is too long ({{ descriptionMaxLength }} characters max.).
+
+  .form-group(ng-class="{ 'has-error': form.hasError('imageUrl') }")
+    .row
+      .col-md-2.text-right
+        label.control-label(for="imageUrl") Image URL
+      .col-md-4
+        input.form-control(
+          type="text"
+          name="imageUrl"
+          ng-model="model.imageUrl"
+          ng-change="onImageUrlChange()"
+          ng-model-options="{ updateOn: 'default blur', debounce: { default: 1000, blur: 0 } }"
+        )
+      .col-md-6
+        div
+          label.control-label Preview
+        div.image-preview
+          us-spinner(ng-show="loadingPreview")
+          img.preview-image-url(
+            ng-show="!loadingPreview"
+            ng-src="{{ model.imageUrl }}"
+            image-loading="loadingPreview = false"
+          )
+    .row
+      .col-md-4.col-md-offset-2
+        .help-block(ng-show="form.hasError('imageUrl')" ng-messages="form.imageUrl.$error")
+          i.fa.fa-warning &nbsp;
+          span(ng-message="invalid") Image URL is not a valid URL.
 
   ul.col-md-offset-2.text-danger(ng-show="responseErrors")
     li(ng-repeat="error in responseErrors track by $index") {{ error }}

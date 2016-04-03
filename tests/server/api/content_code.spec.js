@@ -108,7 +108,12 @@ describe('/api/contentCodes', function() {
       .endAsync()
       .then((res) => {
         TestUtils.assertObjectIds(cc._id, res.body._id);
-        TestUtils.assertUnorderedArrays(_.keys(res.body), Settings.ContentCode.paths);
+        TestUtils.assertUnorderedArrays(
+          _.keys(res.body),
+
+          // Omit those fields as they are optional
+          _.without(Settings.ContentCode.paths, 'description', 'imageUrl')
+        );
       });
     });
 
@@ -252,6 +257,48 @@ describe('/api/contentCodes', function() {
         expect(_.keys(res.body.errors)).to.have.length(1);
         expect(res.body.errors['content.url']).not.to.be.empty;
         expect(res.body.errors['content.url'].message).to.be.eql(Settings.ContentCode.errors.content.url.invalid);
+      });
+    });
+
+    it('/ (invalid imageUrl) should fail', function() {
+      const obj = {
+        name : 'something',
+        imageUrl: 'not a valid URL!',
+        content: {
+          url: 'http://www.test.com/contenturl'
+        }
+      };
+      return agentUtils.withCookies(server.post('/api/contentCodes'))
+      .send(obj)
+      .expect(400)
+      .expect('Content-Type', /json/)
+      .endAsync()
+      .then((res) => {
+        expect(res.body.name).to.be.eql('ValidationError');
+        expect(_.keys(res.body.errors)).to.have.length(1);
+        expect(res.body.errors['imageUrl']).not.to.be.empty;
+        expect(res.body.errors['imageUrl'].message).to.be.eql(Settings.ContentCode.errors.imageUrl.invalid);
+      });
+    });
+
+    it('/ (too long description) should fail', function() {
+      const obj = {
+        name : 'something',
+        description: _.times(Settings.ContentCode.values.description.maxLength + 1, () => 'c').join(''),
+        content: {
+          url: 'http://www.test.com/contenturl'
+        }
+      };
+      return agentUtils.withCookies(server.post('/api/contentCodes'))
+      .send(obj)
+      .expect(400)
+      .expect('Content-Type', /json/)
+      .endAsync()
+      .then((res) => {
+        expect(res.body.name).to.be.eql('ValidationError');
+        expect(_.keys(res.body.errors)).to.have.length(1);
+        expect(res.body.errors['description']).not.to.be.empty;
+        expect(res.body.errors['description'].message).to.be.eql(Settings.ContentCode.errors.description.maxLength);
       });
     });
 

@@ -1,9 +1,14 @@
 'use strict';
 
 module.exports = {
-  paths: [ '_id', 'name', 'code', 'content' ],
+  paths: [ '_id', 'code', 'name', 'imageUrl', 'description', 'content' ],
   sort: {
     name: 'asc'
+  },
+  values: {
+    description: {
+      maxLength: 255
+    }
   },
   errors: {
     name: {
@@ -14,6 +19,12 @@ module.exports = {
     },
     code: {
       required: 'ContentCode "code" cannot be empty'
+    },
+    description: {
+      maxLength: 'ContentCode "description" is too long (max. 255 characters)'
+    },
+    imageUrl: {
+      invalid: 'ContentCode "imageUrl" is not a valid URL'
     },
     content: {
       url: {

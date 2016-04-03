@@ -21,7 +21,7 @@ describe('API settings', function() {
 
   describe('ContentCode', function() {
     it('Exposed paths should be "_id", "name", "code" and "content"', function() {
-      const paths = [ '_id', 'name', 'code', 'content' ];
+      const paths = [ '_id', 'name', 'description', 'imageUrl', 'code', 'content' ];
       expect(_.difference(APISettings.ContentCode.paths, paths)).to.be.empty;
       expect(_.difference(paths, APISettings.ContentCode.paths)).to.be.empty;
     });

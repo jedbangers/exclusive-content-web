@@ -78,9 +78,11 @@ module.exports = (Restangular) ->
 
     create: (contentCode) ->
       body = $.param
-        name    : contentCode.name
-        code    : contentCode.code
-        content : contentCode.content
+        name        : contentCode.name
+        code        : contentCode.code
+        content     : contentCode.content
+        imageUrl    : contentCode.imageUrl
+        description : contentCode.description
 
       headers =
         'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
@@ -89,9 +91,11 @@ module.exports = (Restangular) ->
 
     edit: (id, contentCode) ->
       body = $.param
-        name    : contentCode.name
-        code    : contentCode.code
-        content : contentCode.content
+        name        : contentCode.name
+        code        : contentCode.code
+        content     : contentCode.content
+        imageUrl    : contentCode.imageUrl
+        description : contentCode.description
 
       headers =
         'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
