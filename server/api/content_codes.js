@@ -33,6 +33,14 @@ router.get('/total', (req, res, next) => {
   .catch(next);
 });
 
+router.get('/latest', (req, res, next) => {
+  ContentCode.findAsync()
+  .then((contentCodes) => _.sortBy(contentCodes, (cc) => 1 - cc._id.getTimestamp()))
+  .then(_.first)
+  .then(Response.Ok(res))
+  .catch(next);
+});
+
 router.get('/:id',
   RouteUtils.validateId(),
   RouteUtils.populateDocument({

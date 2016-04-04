@@ -15,10 +15,10 @@ const schema = new mongoose.Schema({
   },
   name: String,
   active: { type: Boolean, default: true },
-  imageUrl: { type: String, lowercase: true },
+  imageUrl: String,
   description: String,
   content: {
-    url: { type: String, lowercase: true }
+    url: String
   },
   authorizedEmails: [{
     email        : { type: String, lowercase: true },

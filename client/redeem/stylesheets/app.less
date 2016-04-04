@@ -12,9 +12,12 @@ body {
   }
 
   .redeem-code-container {
-    max-width  : 320px;
     min-height : @redeemCodeContainerMinHeight;
-    margin     : 0 auto;
+
+    form {
+      max-width: 320px;
+      margin: 0 auto;
+    }
 
     .loading-spinner {
       position: relative;
@@ -26,7 +29,25 @@ body {
         left    : 50% !important;
         top     : @redeemCodeContainerMinHeight / 2 !important;
       }
+    }
 
+    .content-code {
+      max-width: 700px;
+      margin: 0 auto;
+
+      h3 {
+        margin-top: 0;
+      }
+
+      .content-code-image {
+        width: 200px;
+        height: auto;
+        border-radius: 5px;
+      }
+
+      .back-button-container {
+        margin-top: 20px;
+      }
     }
   }
 
