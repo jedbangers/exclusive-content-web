@@ -1,11 +1,11 @@
 'use strict';
 
-const config     = require('config');
-const express    = require('express');
-const fs         = require('fs');
-const superagent = require('superagent');
-const RouteUtils = require('../utils/route_utils');
-const api        = require('../api');
+const config       = require('config');
+const express      = require('express');
+const fs           = require('fs');
+const RouteUtils   = require('../utils/route_utils');
+const api          = require('../api');
+const streamRouter = require('../routes/stream');
 
 const enforceSSL = RouteUtils.enforceSSL({ port: config.server.ssl.port });
 
@@ -43,10 +43,6 @@ module.exports = function(app) {
   app.use('/dashboard', serveBundledView('index', 'dashboard', config.app.assets.mappings));
   app.use('/redeem',    serveBundledView('index', 'redeem',    config.app.assets.mappings));
 
-  app.use('/streamContent/:code', (req, res) => {
-    superagent.get('http://dl.dropbox.com/u/1538714/article_resources/song.m4a').pipe(res);
-  });
-
   // URL rewrite for non-HTML5 browsers
   // Just send the index.html for other files to support HTML5Mode
   // app.all(config.app.dashboard.base + '*', function(req, res, next) {
@@ -56,6 +52,9 @@ module.exports = function(app) {
   // app.all(config.app.web.base + '*', function(req, res, next) {
   //   res.sendFile(config.app.web.index, { root: path.join(__dirname, config.app.web.root) });
   // });
+
+  // Routes
+  app.use('/stream', streamRouter());
 
   // API
   app.use(config.app.api.base, api());
