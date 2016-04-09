@@ -3,7 +3,6 @@
 require('../../../server/bin/context');
 
 const _               = require('lodash');
-const Bluebird        = require('bluebird');
 const mongoose        = require('mongoose');
 const request         = require('supertest');
 const expect          = require('chai').expect;
@@ -34,21 +33,43 @@ describe('/api/contentCodes', function() {
 
     let contentCodes;
 
+    before(() => App.setup());
     before(() => {
-      return App.setup()
-      .then(() => Bluebird.all([ Admin.removeAsync(), ContentCode.removeAsync() ]))
-      .then(() => Bluebird.all([ AdminSeed.seed(1).then(_.first), ContentCodeSeed.seed(toSeed) ]))
-      .spread((adminSeeded, contentCodesSeeded) => {
+      return Admin.removeAsync()
+      .then(() => AdminSeed.seed(1).then(_.first))
+      .then((adminSeeded) => agentUtils.performLogin(adminSeeded.email, 'test'));
+    });
+
+    before(() => {
+      return ContentCode.removeAsync()
+      .then(() => ContentCodeSeed.seed(toSeed))
+      .then((contentCodesSeeded) => {
+
+        // Dont know why this is not 'prepareSeededObjects'ing content for each ContentCode.
+        // Tried with map with no luck either.
+        // Maybe it has to do with Mongoose not making it possible to assign
+        // to a property of a Mongoosified object, but don't really know.
+        // _.forEach(contentCodesSeeded, (cc) => {
+        //   const aaa = TestUtils.prepareSeededObjects(cc.content, Settings.Content.paths);
+        //   cc.content = aaa;
+        //   return cc;
+        // });
+
         contentCodes = TestUtils.prepareSeededObjects(
           contentCodesSeeded,
           Settings.ContentCode.paths,
           (item) => item.name
         );
-        return agentUtils.performLogin(adminSeeded.email, 'test');
+
+        // Hack due to problem avoid
+        _.forEach(contentCodes, (cc) => {
+          _.forEach(cc.content, (content) => {
+            content._id = content._id.toString();
+          });
+        });
+
       });
     });
-
-    after(() => ContentCode.removeAsync());
 
     it('/ should return content code list', function() {
       return agentUtils.withCookies(server.get('/api/contentCodes'))
@@ -108,12 +129,7 @@ describe('/api/contentCodes', function() {
       .endAsync()
       .then((res) => {
         TestUtils.assertObjectIds(cc._id, res.body._id);
-        TestUtils.assertUnorderedArrays(
-          _.keys(res.body),
-
-          // Omit those fields as they are optional
-          _.without(Settings.ContentCode.paths, 'description', 'imageUrl')
-        );
+        TestUtils.assertUnorderedArrays(_.keys(res.body), _.without(Settings.ContentCode.paths));
       });
     });
 
@@ -179,16 +195,20 @@ describe('/api/contentCodes', function() {
 
     TestUtils.seedingTimeout(this, 1, 3000);
 
-    before(() => App.setup().then(() => ContentCode.removeAsync()));
-
-    after(() => ContentCode.removeAsync());
+    before(() => App.setup());
+    before(() => ContentCode.removeAsync());
+    before(() => {
+      return Admin.removeAsync()
+      .then(() => AdminSeed.seed(1).then(_.first))
+      .then((adminSeeded) => agentUtils.performLogin(adminSeeded.email, 'test'));
+    });
 
     it('/ should create a new content code', function() {
       const obj = {
         name : 'A content code',
-        content: {
-          url: 'http://www.test.com/contenturl'
-        }
+        content: [
+          { title: 'test content', url: 'http://www.test.com/contenturl' }
+        ]
       };
       return agentUtils.withCookies(server.post('/api/contentCodes'))
       .send(obj)
@@ -196,6 +216,9 @@ describe('/api/contentCodes', function() {
       .expect('Content-Type', /json/)
       .endAsync()
       .then((res) => {
+        // Omit _id property from 'content' array
+        res.body.content = _.map(res.body.content, (c) => _.omit(c, '_id'));
+
         expect(res.body).to.be.eql(_.merge(obj, {
           _id: res.body._id,
           code: res.body.code
@@ -207,9 +230,9 @@ describe('/api/contentCodes', function() {
       const obj = {
         name : 'A content code',
         code : '82743985743h52k3j4h',
-        content: {
-          url: 'http://www.test.com/contenturl'
-        }
+        content: [
+          { title: 'test content', url: 'http://www.test.com/contenturl' }
+        ]
       };
       return agentUtils.withCookies(server.post('/api/contentCodes'))
       .send(obj)
@@ -217,6 +240,9 @@ describe('/api/contentCodes', function() {
       .expect('Content-Type', /json/)
       .endAsync()
       .then((res) => {
+        // Omit _id property from 'content' array
+        res.body.content = _.map(res.body.content, (c) => _.omit(c, '_id'));
+
         expect(res.body).to.be.eql(_.merge(obj, {
           _id: res.body._id,
           code: res.body.code
@@ -232,20 +258,47 @@ describe('/api/contentCodes', function() {
       .endAsync()
       .then((res) => {
         expect(res.body.name).to.be.eql('ValidationError');
+        expect(_.keys(res.body.errors)).to.have.length(1);
+        expect(res.body.errors['name']).not.to.be.empty;
+        expect(res.body.errors['name'].message).to.be.eql(Settings.ContentCode.errors.name.required);
+      });
+    });
+
+    it('/ (empty content object) should fail', function() {
+      const obj = {
+        name : 'something',
+        content: [
+          { title: 'test content 1', url: 'http://www.test.com/contenturl1' },
+          {},
+          { title: 'test content 2', url: 'http://www.test.com/contenturl2' }
+        ]
+      };
+      return agentUtils.withCookies(server.post('/api/contentCodes'))
+      .send(obj)
+      .expect(400)
+      .expect('Content-Type', /json/)
+      .endAsync()
+      .then((res) => {
+        expect(res.body.name).to.be.eql('ValidationError');
         expect(_.keys(res.body.errors)).to.have.length(2);
-        expect(res.body.errors['content.url'])         .not.to.be.empty;
-        expect(res.body.errors['name'])                .not.to.be.empty;
-        expect(res.body.errors['content.url'].message) .to.be.eql(Settings.ContentCode.errors.content.url.required);
-        expect(res.body.errors['name'].message)        .to.be.eql(Settings.ContentCode.errors.name.required);
+        expect(res.body.errors['content.1.title']).not.to.be.empty;
+        expect(res.body.errors['content.1.url']).not.to.be.empty;
+        expect(res.body.errors['content.1.title'].message).to.be.eql(Settings.Content.errors.title.required);
+        expect(res.body.errors['content.1.url'].message).to.be.eql(Settings.Content.errors.url.required);
       });
     });
 
-    it('/ (invalid content.url) should fail', function() {
+    it('/ (content object with title too long) should fail', function() {
       const obj = {
         name : 'something',
-        content: {
-          url: 'not a valid URL!'
-        }
+        content: [
+          { title: 'test content 1', url: 'http://www.test.com/contenturl1' },
+          {
+            title: _.times(Settings.Content.values.title.maxLength + 1, () => 'a'),
+            url: 'http://www.test.com/contenturl2'
+          },
+          { title: 'test content 3', url: 'http://www.test.com/contenturl3' }
+        ]
       };
       return agentUtils.withCookies(server.post('/api/contentCodes'))
       .send(obj)
@@ -255,18 +308,19 @@ describe('/api/contentCodes', function() {
       .then((res) => {
         expect(res.body.name).to.be.eql('ValidationError');
         expect(_.keys(res.body.errors)).to.have.length(1);
-        expect(res.body.errors['content.url']).not.to.be.empty;
-        expect(res.body.errors['content.url'].message).to.be.eql(Settings.ContentCode.errors.content.url.invalid);
+        expect(res.body.errors['content.1.title']).not.to.be.empty;
+        expect(res.body.errors['content.1.title'].message).to.be.eql(Settings.Content.errors.title.maxLength);
       });
     });
 
-    it('/ (invalid imageUrl) should fail', function() {
+    it('/ (content object with invalid URL) should fail', function() {
       const obj = {
         name : 'something',
-        imageUrl: 'not a valid URL!',
-        content: {
-          url: 'http://www.test.com/contenturl'
-        }
+        content: [
+          { title: 'test content 1', url: 'http://www.test.com/contenturl1' },
+          { title: 'test content 2', url: 'not a valid URL!' },
+          { title: 'test content 3', url: 'http://www.test.com/contenturl3' }
+        ]
       };
       return agentUtils.withCookies(server.post('/api/contentCodes'))
       .send(obj)
@@ -276,18 +330,21 @@ describe('/api/contentCodes', function() {
       .then((res) => {
         expect(res.body.name).to.be.eql('ValidationError');
         expect(_.keys(res.body.errors)).to.have.length(1);
-        expect(res.body.errors['imageUrl']).not.to.be.empty;
-        expect(res.body.errors['imageUrl'].message).to.be.eql(Settings.ContentCode.errors.imageUrl.invalid);
+        expect(res.body.errors['content.1.url']).not.to.be.empty;
+        expect(res.body.errors['content.1.url'].message).to.be.eql(Settings.Content.errors.url.invalid);
       });
     });
 
-    it('/ (too long description) should fail', function() {
+    it('/ (content object with invalid imageUrl) should fail', function() {
       const obj = {
         name : 'something',
-        description: _.times(Settings.ContentCode.values.description.maxLength + 1, () => 'c').join(''),
-        content: {
-          url: 'http://www.test.com/contenturl'
-        }
+        content: [
+          {
+            title    : 'test content',
+            imageUrl : 'not a valid URL!',
+            url      : 'http://www.test.com/contenturl'
+          }
+        ]
       };
       return agentUtils.withCookies(server.post('/api/contentCodes'))
       .send(obj)
@@ -297,8 +354,34 @@ describe('/api/contentCodes', function() {
       .then((res) => {
         expect(res.body.name).to.be.eql('ValidationError');
         expect(_.keys(res.body.errors)).to.have.length(1);
-        expect(res.body.errors['description']).not.to.be.empty;
-        expect(res.body.errors['description'].message).to.be.eql(Settings.ContentCode.errors.description.maxLength);
+        expect(res.body.errors['content.0.imageUrl']).not.to.be.empty;
+        expect(res.body.errors['content.0.imageUrl'].message).to.be.eql(Settings.Content.errors.imageUrl.invalid);
+      });
+    });
+
+    it('/ (content object with too long description) should fail', function() {
+      const obj = {
+        name : 'something',
+        content: [
+          {
+            title       : 'test content',
+            url         : 'http://www.test.com/contenturl',
+            description : _.times(Settings.Content.values.description.maxLength + 1, () => 'c').join('')
+          }
+        ]
+      };
+      return agentUtils.withCookies(server.post('/api/contentCodes'))
+      .send(obj)
+      .expect(400)
+      .expect('Content-Type', /json/)
+      .endAsync()
+      .then((res) => {
+        expect(res.body.name).to.be.eql('ValidationError');
+        expect(_.keys(res.body.errors)).to.have.length(1);
+        expect(res.body.errors['content.0.description']).not.to.be.empty;
+        expect(res.body.errors['content.0.description'].message).to.be.eql(
+          Settings.Content.errors.description.maxLength
+        );
       });
     });
 

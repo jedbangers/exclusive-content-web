@@ -6,6 +6,7 @@ const mongoose       = require('mongoose');
 const mongooseDelete = require('mongoose-delete');
 const ShortId        = require('mongoose-shortid-nodeps');
 const Settings       = require('../../settings');
+const Content        = require('./content');
 const validations    = require('./validations');
 
 const schema = new mongoose.Schema({
@@ -15,11 +16,7 @@ const schema = new mongoose.Schema({
   },
   name: String,
   active: { type: Boolean, default: true },
-  imageUrl: String,
-  description: String,
-  content: {
-    url: String
-  },
+  content: [ Content ],
   authorizedEmails: [{
     email        : { type: String, lowercase: true },
     authorizedAt : Date

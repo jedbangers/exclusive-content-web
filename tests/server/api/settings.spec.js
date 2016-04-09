@@ -21,7 +21,7 @@ describe('API settings', function() {
 
   describe('ContentCode', function() {
     it('Exposed paths should be "_id", "name", "code" and "content"', function() {
-      const paths = [ '_id', 'name', 'description', 'imageUrl', 'code', 'content' ];
+      const paths = [ '_id', 'name', 'code', 'content' ];
       expect(_.difference(APISettings.ContentCode.paths, paths)).to.be.empty;
       expect(_.difference(paths, APISettings.ContentCode.paths)).to.be.empty;
     });
@@ -29,6 +29,19 @@ describe('API settings', function() {
     it('List should be sorted in ascending order by "name"', function() {
       expect(APISettings.ContentCode.sort).to.have.keys([ 'name' ]);
       expect(APISettings.ContentCode.sort.name).and.equal('asc');
+    });
+  });
+
+  describe('Content', function() {
+    it('Exposed paths should be "_id", "title", "description", "imageUrl" and "url"', function() {
+      const paths = [ '_id', 'title', 'description', 'imageUrl', 'url' ];
+      expect(_.difference(APISettings.Content.paths, paths)).to.be.empty;
+      expect(_.difference(paths, APISettings.Content.paths)).to.be.empty;
+    });
+
+    it('List should be sorted in ascending order by "title"', function() {
+      expect(APISettings.Content.sort).to.have.keys([ 'title' ]);
+      expect(APISettings.Content.sort.title).and.equal('asc');
     });
   });
 

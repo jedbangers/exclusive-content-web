@@ -6,6 +6,15 @@ const chance      = require('chance').Chance();
 const Log         = require('../server/utils/log');
 const ContentCode = require('../server/model/content_code');
 
+function seedContent() {
+  return {
+    title       : chance.sentence({ words: 5 }),
+    description : chance.paragraph({ sentences: 2 }),
+    imageUrl    : chance.url(),
+    url         : chance.url()
+  };
+}
+
 module.exports = {
 
   seed(n) {
@@ -13,9 +22,7 @@ module.exports = {
 
       const contentCode = new ContentCode({
         name: chance.sentence({ words: 5 }),
-        content: {
-          url: chance.url({ domain: 'seed.dev' })
-        }
+        content: _.times(chance.natural({ min: 1, max: 5 }), seedContent)
       });
 
       return contentCode.saveAsync()
