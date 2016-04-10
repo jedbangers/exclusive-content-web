@@ -16,11 +16,7 @@ const schema = new mongoose.Schema({
   },
   name: String,
   active: { type: Boolean, default: true },
-  content: [ Content ],
-  authorizedEmails: [{
-    email        : { type: String, lowercase: true },
-    authorizedAt : Date
-  }]
+  content: [ Content ]
 });
 
 schema.plugin(validations);
