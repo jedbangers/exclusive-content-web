@@ -6,10 +6,10 @@
   h1 Content codes
 
 ng-table-async.contentCodes-list(options="tableOptions")
-  nta-column(header="'_id'"  content="item._id")
-  nta-column(header="'Name'" content="item.name")
-  nta-column(header="'Code'" content="item.code")
-  nta-column(header="'URL'"  content="item.content.url")
+  nta-column(header="'_id'"               content="item._id")
+  nta-column(header="'Name'"              content="item.name")
+  nta-column(header="'Code'"              content="item.code")
+  nta-column(header="'Contents included'" content="item.content.length")
   nta-column(header="'Actions'")
     nta-action(
       label  = "View/Edit"

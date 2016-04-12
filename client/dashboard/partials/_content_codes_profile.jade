@@ -1,7 +1,7 @@
 .page-header
   h1 {{ editing ? 'Edit' : 'New' }} content
 
-form.form-horizontal(name="form" role="form" novalidate)
+form.form-horizontal.content-code-profile(name="form" role="form" novalidate)
 
   .init(ng-init="extendForm(form)")
 
@@ -28,69 +28,132 @@ form.form-horizontal(name="form" role="form" novalidate)
         .help-block(ng-show="form.hasError('name')" ng-messages="form.name.$error")
           i.fa.fa-warning &nbsp;
           span(ng-message="required") Name cannot be empty.
+          span(ng-message="maxlength") Name is too long ({{ nameMaxLength }} characters max.).
 
-  .form-group(ng-class="{ 'has-error': form.hasError('content.url') }")
+  .form-group
     .row
       .col-md-2.text-right
-        label.control-label(for="content.url") Content URL *
-      .col-md-4
-        input.form-control(
-          type="text"
-          name="content.url"
-          ng-model="model.content.url"
-          ng-model-options="{ updateOn: 'default blur', debounce: { default: 1000, blur: 0 } }"
-          required
-        )
-    .row
-      .col-md-4.col-md-offset-2
-        .help-block(ng-show="form.hasError('content.url')" ng-messages="form.content.url.$error")
-          i.fa.fa-warning &nbsp;
-          span(ng-message="required") Content URL cannot be empty.
-          span(ng-message="invalid") Content URL is not a valid URL.
+        label.control-label(for="content") Content *
+        br
+        button.btn.btn-default.btn-xs(type="button") Add new item
+      .col-md-10
+        .table-responsive.content-items-table
+          .container-fluid
+            table.table.table-condensed.table-striped
+              thead
+                tr
+                  th.image-url-column Preview image
+                  th Data
+                  th.actions-column Actions
+              tbody
+                tr(ng-repeat="contentItem in model.content track by $index")
+                  td
+                    img.img-responsive(ng-src="{{ contentItem.imageUrl }}")
+                    br
+                  td
+                    .row(ng-class="{ 'has-error': form.hasError('content.' + $index + '.title') }")
+                      .col-md-7
+                        label.control-label(for="content.{{$index}}.title") Title *
+                        br
+                        input.form-control(
+                          type="text"
+                          name="content.{{$index}}.title"
+                          ng-model="contentItem.title"
+                          ng-maxlength="contentTitleMaxLength"
+                          required
+                        )
+                      .col-md-5
+                        .help-block(
+                          ng-show="form.hasError('content.' + $index + '.title')"
+                          ng-messages="form['content.' + $index + '.title'].$error"
+                        )
+                          i.fa.fa-warning &nbsp;
+                          span(ng-message="required") Title cannot be empty.
+                          span(ng-message="maxlength")
+                            | Title is too long ({{ contentTitleMaxLength }} characters max)
 
-  .form-group(ng-class="{ 'has-error': form.hasError('description') }")
-    .row
-      .col-md-2.text-right
-        label.control-label(for="description") Description
-      .col-md-4
-        textarea.form-control(
-          name="description"
-          ng-maxlength="descriptionMaxLength"
-          ng-model="model.description"
-        )
-    .row
-      .col-md-4.col-md-offset-2
-        .help-block(ng-show="form.hasError('description')" ng-messages="form.description.$error")
-          i.fa.fa-warning &nbsp;
-          span(ng-message="maxlength") Description is too long ({{ descriptionMaxLength }} characters max.).
+                    .row(ng-class="{ 'has-error': form.hasError('content.' + $index + '.description') }")
+                      .col-md-7
+                        label.control-label(for="content.{{$index}}.description") Description
+                        br
+                        textarea.form-control(
+                          type="text"
+                          name="content.{{$index}}.description"
+                          ng-model="contentItem.description"
+                          ng-maxlength="contentDescriptionMaxLength"
+                        )
+                      .col-md-5
+                        .help-block(
+                          ng-show="form.hasError('content.' + $index + '.description')"
+                          ng-messages="form['content.' + $index + '.description'].$error"
+                        )
+                          i.fa.fa-warning &nbsp;
+                          span(ng-message="maxlength")
+                            | Description is too long ({{ contentDescriptionMaxLength }} characters max)
 
-  .form-group(ng-class="{ 'has-error': form.hasError('imageUrl') }")
-    .row
-      .col-md-2.text-right
-        label.control-label(for="imageUrl") Image URL
-      .col-md-4
-        input.form-control(
-          type="text"
-          name="imageUrl"
-          ng-model="model.imageUrl"
-          ng-change="onImageUrlChange()"
-          ng-model-options="{ updateOn: 'default blur', debounce: { default: 1000, blur: 0 } }"
-        )
-      .col-md-6
-        div
-          label.control-label Preview
-        div.image-preview
-          us-spinner(ng-show="loadingPreview")
-          img.preview-image-url(
-            ng-show="!loadingPreview"
-            ng-src="{{ model.imageUrl }}"
-            image-loading="loadingPreview = false"
-          )
-    .row
-      .col-md-4.col-md-offset-2
-        .help-block(ng-show="form.hasError('imageUrl')" ng-messages="form.imageUrl.$error")
-          i.fa.fa-warning &nbsp;
-          span(ng-message="invalid") Image URL is not a valid URL.
+                    .row(ng-class="{ 'has-error': form.hasError('content.' + $index + '.imageUrl') }")
+                      .col-md-7
+                        label.control-label(for="content.{{$index}}.imageUrl") Preview Image URL
+                        br
+                        input.form-control(
+                          type="url"
+                          name="content.{{$index}}.imageUrl"
+                          ng-model="contentItem.imageUrl"
+                        )
+                      .col-md-5
+                        .help-block(
+                          ng-show="form.hasError('content.' + $index + '.imageUrl')"
+                          ng-messages="form['content.' + $index + '.imageUrl'].$error"
+                        )
+                          i.fa.fa-warning &nbsp;
+                          span(ng-message="url") Preview Image URL is not a valid URL
+
+                    .row(ng-class="{ 'has-error': form.hasError('content.' + $index + '.url') }")
+                      .col-md-7
+                        label.control-label(for="content.{{$index}}.url") URL *
+                        br
+                        input.form-control(
+                          type="url"
+                          name="content.{{$index}}.url"
+                          ng-model="contentItem.url"
+                          required
+                        )
+                      .col-md-5
+                        .help-block(
+                          ng-show="form.hasError('content.' + $index + '.url')"
+                          ng-messages="form['content.' + $index + '.url'].$error"
+                        )
+                          i.fa.fa-warning &nbsp;
+                          span(ng-message="required") URL cannot be empty.
+                          span(ng-message="url") URL is not a valid URL
+                  td
+                    button.btn.btn-danger.btn-xs(type="button" ng-click="openDeleteModal(contentItem)")
+                      span.glyphicon.glyphicon-trash
+                      &nbsp;
+                      | Delete
+
+  //- .form-group(ng-class="{ 'has-error': form.hasError('imageUrl') }")
+  //-   .row
+  //-     .col-md-2.text-right
+  //-       label.control-label(for="imageUrl") Image URL
+  //-     .col-md-4
+  //-       input.form-control(
+  //-         type="text"
+  //-         name="imageUrl"
+  //-         ng-model="model.imageUrl"
+  //-         ng-change="onImageUrlChange()"
+  //-         ng-model-options="{ updateOn: 'default blur', debounce: { default: 1000, blur: 0 } }"
+  //-       )
+  //-     .col-md-6
+  //-       div
+  //-         label.control-label Preview
+  //-       div.image-preview
+  //-         us-spinner(ng-show="loadingPreview")
+  //-         img.preview-image-url(
+  //-           ng-show="!loadingPreview"
+  //-           ng-src="{{ model.imageUrl }}"
+  //-           image-loading="loadingPreview = false"
+  //-         )
 
   ul.col-md-offset-2.text-danger(ng-show="responseErrors")
     li(ng-repeat="error in responseErrors track by $index") {{ error }}
