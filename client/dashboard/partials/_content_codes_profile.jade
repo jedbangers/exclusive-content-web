@@ -35,7 +35,7 @@ form.form-horizontal.content-code-profile(name="form" role="form" novalidate)
       .col-md-2.text-right
         label.control-label(for="content") Content *
         br
-        button.btn.btn-default.btn-xs(type="button") Add new item
+        button.btn.btn-default.btn-xs(type="button" ng-click="openNewContentItemModal()") Add new item
       .col-md-10
         .table-responsive.content-items-table
           .container-fluid
@@ -48,88 +48,19 @@ form.form-horizontal.content-code-profile(name="form" role="form" novalidate)
               tbody
                 tr(ng-repeat="contentItem in model.content track by $index")
                   td
-                    img.img-responsive(ng-src="{{ contentItem.imageUrl }}")
-                    br
+                    content-item-image-preview(url="contentItem.imageUrl")
                   td
-                    .row(ng-class="{ 'has-error': form.hasError('content.' + $index + '.title') }")
-                      .col-md-7
-                        label.control-label(for="content.{{$index}}.title") Title *
-                        br
-                        input.form-control(
-                          type="text"
-                          name="content.{{$index}}.title"
-                          ng-model="contentItem.title"
-                          ng-maxlength="contentTitleMaxLength"
-                          required
-                        )
-                      .col-md-5
-                        .help-block(
-                          ng-show="form.hasError('content.' + $index + '.title')"
-                          ng-messages="form['content.' + $index + '.title'].$error"
-                        )
-                          i.fa.fa-warning &nbsp;
-                          span(ng-message="required") Title cannot be empty.
-                          span(ng-message="maxlength")
-                            | Title is too long ({{ contentTitleMaxLength }} characters max)
-
-                    .row(ng-class="{ 'has-error': form.hasError('content.' + $index + '.description') }")
-                      .col-md-7
-                        label.control-label(for="content.{{$index}}.description") Description
-                        br
-                        textarea.form-control(
-                          type="text"
-                          name="content.{{$index}}.description"
-                          ng-model="contentItem.description"
-                          ng-maxlength="contentDescriptionMaxLength"
-                        )
-                      .col-md-5
-                        .help-block(
-                          ng-show="form.hasError('content.' + $index + '.description')"
-                          ng-messages="form['content.' + $index + '.description'].$error"
-                        )
-                          i.fa.fa-warning &nbsp;
-                          span(ng-message="maxlength")
-                            | Description is too long ({{ contentDescriptionMaxLength }} characters max)
-
-                    .row(ng-class="{ 'has-error': form.hasError('content.' + $index + '.imageUrl') }")
-                      .col-md-7
-                        label.control-label(for="content.{{$index}}.imageUrl") Preview Image URL
-                        br
-                        input.form-control(
-                          type="url"
-                          name="content.{{$index}}.imageUrl"
-                          ng-model="contentItem.imageUrl"
-                        )
-                      .col-md-5
-                        .help-block(
-                          ng-show="form.hasError('content.' + $index + '.imageUrl')"
-                          ng-messages="form['content.' + $index + '.imageUrl'].$error"
-                        )
-                          i.fa.fa-warning &nbsp;
-                          span(ng-message="url") Preview Image URL is not a valid URL
-
-                    .row(ng-class="{ 'has-error': form.hasError('content.' + $index + '.url') }")
-                      .col-md-7
-                        label.control-label(for="content.{{$index}}.url") URL *
-                        br
-                        input.form-control(
-                          type="url"
-                          name="content.{{$index}}.url"
-                          ng-model="contentItem.url"
-                          required
-                        )
-                      .col-md-5
-                        .help-block(
-                          ng-show="form.hasError('content.' + $index + '.url')"
-                          ng-messages="form['content.' + $index + '.url'].$error"
-                        )
-                          i.fa.fa-warning &nbsp;
-                          span(ng-message="required") URL cannot be empty.
-                          span(ng-message="url") URL is not a valid URL
+                    content-item-form(
+                      form                   = "form"
+                      input-prefix           = "'content.' + $index + '.'"
+                      item                   = "contentItem"
+                      title-max-length       = "contentTitleMaxLength"
+                      description-max-length = "contentDescriptionMaxLength"
+                    )
                   td
                     button.btn.btn-danger.btn-xs(type="button" ng-click="openDeleteModal(contentItem)")
                       span.glyphicon.glyphicon-trash
-                      &nbsp;
+                      | &nbsp;
                       | Delete
 
   //- .form-group(ng-class="{ 'has-error': form.hasError('imageUrl') }")

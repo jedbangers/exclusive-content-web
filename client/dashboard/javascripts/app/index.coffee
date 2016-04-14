@@ -7,7 +7,6 @@ require 'angular-ui-router'
 require 'ngstorage'
 require 'restangular'
 require 'angular-loading-bar'
-
 require 'angular-spinner'
 
 # Fix this ugly bit of code
@@ -15,6 +14,7 @@ require 'ng-table-async/node_modules/ng-table/dist/ng-table'
 require 'ng-table-async'
 
 angular = require 'angular'
+uibs    = require 'angular-ui-bootstrap'
 
 # Commons
 connectionRefusedInterceptor = require '../../../commons/javascripts/modules/connection_refused_interceptor'
@@ -36,9 +36,11 @@ contentCodesListController    = require '../controllers/content_codes_list_contr
 contentCodesProfileController = require '../controllers/content_codes_profile_controller'
 
 # Directives
-navbar         = require '../directives/navbar'
-compareToModel = require '../directives/compare_to_model'
-imageLoading   = require '../directives/image_loading'
+navbar                  = require '../directives/navbar'
+compareToModel          = require '../directives/compare_to_model'
+imageLoading            = require '../directives/image_loading'
+contentItemImagePreview = require '../directives/content_item_image_preview'
+contentItemForm         = require '../directives/content_item_form'
 
 # App
 appRun    = require './app_run'
@@ -55,6 +57,7 @@ angular
   'ngTableAsync'
   'ncy-angular-breadcrumb'
   'angularSpinner'
+  uibs
   connectionRefusedInterceptor
   errorModal
   confirmationModal
@@ -68,10 +71,12 @@ angular
 .controller 'ContentCodesListController',    contentCodesListController
 .controller 'ContentCodesProfileController', contentCodesProfileController
 
-.factory    'AuthService',    authService
-.directive  'navbar',         navbar
-.directive  'compareToModel', compareToModel
-.directive  'imageLoading',   imageLoading
+.factory    'AuthService',             authService
+.directive  'navbar',                  navbar
+.directive  'compareToModel',          compareToModel
+.directive  'imageLoading',            imageLoading
+.directive  'contentItemImagePreview', contentItemImagePreview
+.directive  'contentItemForm',         contentItemForm
 
 .config appConfig
 .run appRun

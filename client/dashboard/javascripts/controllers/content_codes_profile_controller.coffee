@@ -2,10 +2,10 @@
 
 _ = require 'lodash'
 
-module.exports = ($scope, $state, API, confirmationModal, Settings, contentCode) ->
-  $scope.nameMaxLength               = Settings.ContentCode.values.name.maxLength;
-  $scope.contentTitleMaxLength       = Settings.Content.values.title.maxLength;
-  $scope.contentDescriptionMaxLength = Settings.Content.values.description.maxLength;
+module.exports = ($scope, $state, API, confirmationModal, Settings, contentCode, $uibModal) ->
+  $scope.nameMaxLength               = Settings.ContentCode.values.name.maxLength
+  $scope.contentTitleMaxLength       = Settings.Content.values.title.maxLength
+  $scope.contentDescriptionMaxLength = Settings.Content.values.description.maxLength
 
   editing = !_.isEmpty contentCode
   action = if editing then _.partial(API.contentCodes.edit, contentCode._id) else API.contentCodes.create
@@ -40,3 +40,54 @@ module.exports = ($scope, $state, API, confirmationModal, Settings, contentCode)
       acceptLabel : 'Delete'
     .result
     .then -> _.remove($scope.model.content, (ci) -> ci._id == contentItem._id)
+
+  $scope.openNewContentItemModal = () ->
+    $uibModal.open
+      controller  : [ '$scope', ($scope) ->
+        $scope.contentTitleMaxLength       = Settings.Content.values.title.maxLength
+        $scope.contentDescriptionMaxLength = Settings.Content.values.description.maxLength
+        $scope.model = {}
+      ]
+      size: 'lg'
+      template: """
+        <div class="modal-header">
+          <button type="button" class="close" aria-label="Close" ng-click="$dismiss()">
+            <span aria-hidden="true">&times;</span>
+          </button>
+          <h3 class="modal-title">New content item</h3>
+        </div>
+        <div class="modal-body">
+          <div class="container-fluid">
+            <div class="row">
+              <div class="col-md-3">
+                <strong>Preview image</strong>
+                <br />
+                <content-item-image-preview url="model.imageUrl"></content-item-image-preview>
+              </div>
+              <div class="col-md-9">
+                <form name="new_content_item_form">
+                  <div ng-init="extendForm(new_content_item_form)"></div>
+                  <content-item-form
+                    form="new_content_item_form"
+                    item="model"
+                    title-max-length="contentTitleMaxLength"
+                    description-max-length="contentDescriptionMaxLength"></content-item-form>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-default" type="button" ng-click="$dismiss()">Cancel</button>
+          <button
+            class="btn btn-primary"
+            type="button"
+            ng-click="$close(model)"
+            ng-disabled="new_content_item_form.$invalid"
+          >Add new item</button>
+        </div>
+      """
+    .result
+    .then (contentItem) ->
+      $scope.model.content.push(contentItem)
+      $scope.form.$setDirty()
