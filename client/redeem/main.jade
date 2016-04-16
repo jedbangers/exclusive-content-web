@@ -1,106 +1,114 @@
-.container
-  .col-md-12
-    .row
-      img.logo(alt="Jedbangers" src="./assets/images/logo.png")
+.main-container
+  .container.wrapper
+    .col-md-12
+      .row
+        img.logo(alt="Jedbangers" src="./assets/images/logo.png")
 
-    .row.vertical-space
+      .row.vertical-space
 
-    .row.redeem-code-container(ng-controller="RedeemCodeController as redeemCode")
-      .loading-spinner(ng-if="redeemCode.loading")
-        span(us-spinner="{ lines: 6, speed: 2, length: 0, width: 10, radius: 10 }")
+      .row.redeem-code-container(ng-controller="RedeemCodeController as redeemCode")
+        .loading-spinner(ng-if="redeemCode.loading")
+          span(us-spinner="{ lines: 6, speed: 2, length: 0, width: 10, radius: 10 }")
 
-      form(
-        ng-if     = "!redeemCode.loading && !redeemCode.contentCode"
-        name      = "redeemCode.contentCodeForm"
-        ng-submit = "redeemCode.doRedeem()"
-      )
+        form(
+          ng-if     = "!redeemCode.loading && !redeemCode.contentCode"
+          name      = "redeemCode.contentCodeForm"
+          ng-submit = "redeemCode.doRedeem()"
+        )
 
-        .alert.alert-danger.alert-dismissable(ng-show="redeemCode.error")
-          button.close(type="button" ng-click="redeemCode.clearErrors()") &times;
-          .text-left
-            small.glyphicon.glyphicon-exclamation-sign
-            small.sr-only Error
-            small &nbsp;
-            small {{ redeemCode.error.title }}
+          .alert.alert-danger.alert-dismissable(ng-show="redeemCode.error")
+            button.close(type="button" ng-click="redeemCode.clearErrors()") &times;
+            .text-left
+              small.glyphicon.glyphicon-exclamation-sign
+              small.sr-only Error
+              small &nbsp;
+              small {{ redeemCode.error.title }}
 
 
-          .text-center
-            small &nbsp; &nbsp; &nbsp; &nbsp;
-            small
-              strong {{ redeemCode.error.message }}
+            .text-center
+              small &nbsp; &nbsp; &nbsp; &nbsp;
+              small
+                strong {{ redeemCode.error.message }}
 
-        .form-group
-          label(for="") Introduce el codigo exclusivo de descarga
-          input.input-lg.form-control(
-            type        = "text"
-            ng-model    = "redeemCode.code"
-            placeholder = "ej: O6Z6Z6Y"
-          )
+          .form-group
+            label(for="") Introduce el codigo exclusivo de descarga
+            input.input-lg.form-control(
+              type        = "text"
+              ng-model    = "redeemCode.code"
+              placeholder = "ej: O6Z6Z6Y"
+            )
 
-        button.btn.btn-lg.btn-default(
-          type        = "submit"
-          ng-disabled = "!redeemCode.code"
-        ) Canjear codigo
+          button.btn.btn-lg.btn-default(
+            type        = "submit"
+            ng-disabled = "!redeemCode.code"
+          ) Canjear codigo
 
-      .content-code(ng-if="!redeemCode.loading && redeemCode.contentCode")
-        .row
+        .content-code(ng-if="!redeemCode.loading && redeemCode.contentCode")
 
           div(ng-if="!redeemCode.hasContentItems()")
-            h3
-              | Todavia no hay contenidos cargados para este codigo
-            h4
-              | Volve a intentar en unos dias!
-            .back-button-container
-              a.btn.btn-default.btn-sm(
-                href=""
-                ng-click="redeemCode.contentCode = null; redeemCode.code = null"
-              ) Canjear otro codigo
-
-            .vertical-space
+            .row
+              h3
+                | Todavia no hay contenidos cargados para este codigo
+              h4
+                | Volve a intentar en unos dias!
+              .back-button-container
+                a.btn.btn-default.btn-sm(
+                  href=""
+                  ng-click="redeemCode.contentCode = null; redeemCode.code = null"
+                ) Canjear otro codigo
 
           div(ng-if="redeemCode.hasContentItems()")
-            .back-button-container
-              a.btn.btn-default.btn-sm(
-                href=""
-                ng-click="redeemCode.contentCode = null; redeemCode.code = null"
-              ) Volver y canjear otro codigo
-
-            .vertical-space
-
-            .col-md-4.content-item-list
-
-              .list-group
-                a.list-group-item(
-                  ng-repeat="contentItem in redeemCode.contentCode.content track by $index"
+            .row
+              .back-button-container
+                a.btn.btn-default.btn-sm(
                   href=""
-                  ng-click="redeemCode.selectContentItem(contentItem)"
-                  ng-class="{ active: redeemCode.isSelected(contentItem) }"
-                )
-                  .list-group-item-heading.text-left
-                    span.glyphicon.glyphicon-headphones
-                    | &nbsp;
-                    | {{ $index + 1 }}
-                    | &nbsp;
-                    | |
-                    | &nbsp;
-                    | {{ contentItem.title }}
-            .col-md-7.content-item-container(ng-if="redeemCode.isAnyContentItemSelected()")
-              .media
-                .media-body.text-left
-                  h4.media-heading {{ redeemCode.selectedContentItem.title }}
-                  p {{ redeemCode.selectedContentItem.description }}
-                  p.text-center
-                    audio(controls)
-                      source(ng-src="{{ redeemCode.contentSource() }}" type="audio/mpeg")
-                      | Tu navegador no soporta la reproduccion de audios nativa.
-                  p
-                    a.btn.btn-primary.btn-xs(
-                      ng-href="{{ this.selectedContentItem.imageUrl }}"
-                      target="_blank"
-                    ) Descargar
+                  ng-click="redeemCode.contentCode = null; redeemCode.code = null"
+                ) Volver y canjear otro codigo
 
-                .media-right
-                  img.media-object.content-code-image(
-                    ng-if="redeemCode.selectedContentItem.imageUrl"
-                    ng-src="{{ redeemCode.selectedContentItem.imageUrl }}"
+            .row.vertical-space
+
+            .row
+              .col-md-4.content-item-list
+                .list-group
+                  a.list-group-item(
+                    ng-repeat="contentItem in redeemCode.contentCode.content track by $index"
+                    href=""
+                    ng-click="redeemCode.selectContentItem(contentItem)"
+                    ng-class="{ active: redeemCode.isSelected(contentItem) }"
                   )
+                    .list-group-item-heading.text-left.truncate-text
+                      span.glyphicon.glyphicon-headphones
+                      | &nbsp;
+                      | |
+                      | &nbsp;
+                      | {{ contentItem.title }}
+              .col-md-7.content-item-container(ng-if="redeemCode.isAnyContentItemSelected()")
+                .media
+                  .media-body.text-left
+                    h4.media-heading {{ redeemCode.selectedContentItem.title }}
+                    p {{ redeemCode.selectedContentItem.description }}
+                    p.text-center
+                      audio(controls)
+                        source(ng-src="{{ redeemCode.contentSource() }}" type="audio/mpeg")
+                        | Tu navegador no soporta la reproduccion de audios nativa.
+                    p
+                      a.btn.btn-primary.btn-xs(
+                        ng-href="{{ this.selectedContentItem.imageUrl }}"
+                        target="_blank"
+                      ) Descargar
+
+                  .media-right
+                    img.media-object.content-code-image(
+                      ng-if="redeemCode.selectedContentItem.imageUrl"
+                      ng-src="{{ redeemCode.selectedContentItem.imageUrl }}"
+                    )
+    .footer-push
+
+  footer.footer
+    .container
+      p.text-muted
+        small www.
+        small.jedbangers JEDBANGERS
+        small .com.ar
+        br
+        small Todo el contenido &copy; JEDBANGERS 2014

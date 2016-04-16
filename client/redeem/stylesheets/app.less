@@ -2,6 +2,13 @@
 @import '~bootswatch/cyborg/variables.less';
 @import '~bootswatch/cyborg/bootswatch.less';
 
+@font-face {
+  font-family : 'distress';
+  src         : url('../assets/fonts/distress.ttf') format('truetype');
+  font-weight : normal;
+  font-style  : normal;
+}
+
 @redeemCodeContainerMinHeight: 50px;
 
 body {
@@ -16,6 +23,10 @@ body {
   .logo {
     max-width: 175px;
     height: auto;
+  }
+
+  .jedbangers {
+    font-family: 'distress';
   }
 
   .redeem-code-container {
@@ -53,8 +64,10 @@ body {
       }
 
       .content-item-container {
-        padding-top: 12px;
-        border-top: 1px solid dimgray;
+        padding-top : 12px;
+        border-top  : 1px solid dimgray;
+        height   : 300px;
+        overflow : hidden;
       }
 
     }
@@ -62,5 +75,34 @@ body {
 
   .vertical-space {
     height: 30px;
+  }
+
+  .truncate-text {
+    white-space   : nowrap;
+    text-overflow : ellipsis;
+    width         : 90%;
+    overflow      : hidden;
+  }
+}
+
+
+
+// Footer
+@footerHeight: 60px;
+
+html, body { height: 100%; }
+body {
+  .main-container {
+    height: 100%;
+
+    .wrapper {
+      min-height : 100%;
+      height     : 100%;
+      margin     : 0 auto -@footerHeight;
+    }
+
+    .footer, .footer-push {
+      height: @footerHeight;
+    }
   }
 }
