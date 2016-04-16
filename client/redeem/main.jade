@@ -77,7 +77,7 @@
                     .media-body.text-left
                       h4.media-heading {{ contentItem.title }}
                       p {{ contentItem.description }}
-                      p.text-center
+                      p
                         audio(controls)
                           source(ng-src="{{ contentItem.url }}" type="audio/mpeg")
                           | Tu navegador no soporta la reproduccion de audios nativa.
