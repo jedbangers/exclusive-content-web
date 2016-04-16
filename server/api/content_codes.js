@@ -81,8 +81,37 @@ router.put('/:id',
   }),
   (req, res, next) => {
     Bluebird.try(() => {
-      const updateObj = _.omit(req.body, 'code');
+      // Merge 'content' properties from body to persistent object
+      let content      = req.fetchedContentCode.content;
+      const newContent = req.body.content;
+
+      // Calculate items to be added and remove them from incoming array.
+      const itemsToBeAdded = _.filter(newContent, (item) => !item._id);
+      _.remove(newContent, (item) => !item._id);
+
+      // Index both contents by _id
+      content = _.indexBy(content, '_id');
+      const newContentIndexed = _.indexBy(_.filter(newContent, (item) => item._id), '_id');
+
+      // Merge them
+      _.merge(content, newContentIndexed);
+
+      // Un-index content
+      content = _.values(content);
+
+      // Remove items to be deleted
+      _.remove(content, (item) => !newContentIndexed[item._id.toString()]);
+
+      // Add new items
+      content = content.concat(itemsToBeAdded);
+
+      // Update content
+      req.fetchedContentCode.content = content;
+
+      // Update the rest of the properties
+      const updateObj = _.omit(req.body, 'code', 'content');
       _.merge(req.fetchedContentCode, updateObj);
+
       return req.fetchedContentCode.saveAsync();
     })
     .then(_.first)

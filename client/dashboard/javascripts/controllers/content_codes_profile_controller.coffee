@@ -39,7 +39,9 @@ module.exports = ($scope, $state, API, confirmationModal, Settings, contentCode,
       closeLabel  : 'Cancel'
       acceptLabel : 'Delete'
     .result
-    .then -> _.remove($scope.model.content, (ci) -> ci._id == contentItem._id)
+    .then ->
+      _.remove($scope.model.content, (ci) -> ci._id == contentItem._id)
+      $scope.form.$setDirty()
 
   $scope.openNewContentItemModal = () ->
     $uibModal.open
