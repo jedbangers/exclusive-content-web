@@ -42,6 +42,7 @@
     "bluebird": "^2.3.11",
     "body-parser": "^1.9.1",
     "bootstrap": "^3.3.5",
+    "bootswatch": "^3.3.6",
     "chance": "^1.0.0",
     "coffee-script": "^1.8.0",
     "compression": "^1.2.0",
