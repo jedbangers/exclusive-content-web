@@ -37,7 +37,10 @@ form.form-horizontal.content-code-profile(name="form" role="form" novalidate)
         br
         button.btn.btn-default.btn-xs(type="button" ng-click="openNewContentItemModal()") Add new item
       .col-md-10
-        .table-responsive.content-items-table
+        .form-control-static(ng-if="noContentItems()")
+          | No content items found
+
+        .table-responsive.content-items-table(ng-if="!noContentItems()")
           .container-fluid
             table.table.table-condensed.table-striped
               thead

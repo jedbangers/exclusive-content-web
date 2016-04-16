@@ -12,12 +12,15 @@ module.exports = ($scope, $state, API, confirmationModal, Settings, contentCode,
   $scope.editing = editing
 
   # Initialize form model (to avoid ngIf child scopes creating their own 'model' property and thus, causing annoying bugs)
-  $scope.model = {}
+  $scope.model =
+    content: []
 
   if editing
     $scope.model.name    = contentCode.name
     $scope.model.code    = contentCode.code
     $scope.model.content = contentCode.content
+
+  $scope.noContentItems = -> $scope.model.content.length == 0
 
   $scope.save = ->
     $scope.submitting = true
