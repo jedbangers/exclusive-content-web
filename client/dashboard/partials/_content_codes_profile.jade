@@ -21,6 +21,7 @@ form.form-horizontal.content-code-profile(name="form" role="form" novalidate)
           name="name"
           ng-model="model.name"
           ng-model-options="{ updateOn: 'default blur', debounce: { default: 1000, blur: 0 } }"
+          ng-maxlength="nameMaxLength"
           required
         )
     .row
