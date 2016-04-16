@@ -72,6 +72,7 @@
               .list-group
                 a.list-group-item(
                   ng-repeat="contentItem in redeemCode.contentCode.content track by $index"
+                  href=""
                   ng-click="redeemCode.selectContentItem(contentItem)"
                   ng-class="{ active: redeemCode.isSelected(contentItem) }"
                 )
