@@ -79,7 +79,11 @@
                       p {{ contentItem.description }}
                       p
                         audio(controls)
-                          source(ng-src="{{ contentItem.url }}" type="audio/mpeg")
+                          source(
+                            type="audio/mp3"
+                            msrc="{{ contentItem.url }}"
+                            html5-media-src
+                          )
                           | Tu navegador no soporta la reproduccion de audios nativa.
                       p
                         a.btn.btn-primary.btn-xs(

@@ -6,6 +6,7 @@ require 'angular-loading-spinner'
 angular                      = require 'angular'
 connectionRefusedInterceptor = require '../../../commons/javascripts/modules/connection_refused_interceptor'
 errorModal                   = require '../../../commons/javascripts/modules/error_modal'
+html5MediaSrc                = require '../../../commons/javascripts/modules/html5_media_src'
 redeemCodeController         = require '../controllers/redeem_code_controller'
 
 angular
@@ -14,6 +15,7 @@ angular
   'ngLoadingSpinner'
   connectionRefusedInterceptor
   errorModal
+  html5MediaSrc
 ]
 
 .controller 'RedeemCodeController', redeemCodeController
