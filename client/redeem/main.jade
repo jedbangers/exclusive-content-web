@@ -44,19 +44,62 @@
 
       .content-code(ng-if="!redeemCode.loading && redeemCode.contentCode")
         .row
-          .pull-left
-            img.content-code-image(ng-src="{{redeemCode.contentCode.imageUrl}}")
-          .col-md-8.text-left
+
+          div(ng-if="!redeemCode.hasContentItems()")
             h3
-              strong {{ redeemCode.contentCode.name }}
-            p {{ redeemCode.contentCode.description }}
-            audio(controls)
-              source(ng-src="{{ redeemCode.contentSource() }}" type="audio/mpeg")
-              | Tu navegador no soporta la reproduccion de audios nativa.
-        .row.back-button-container
-          small Te quedaste con ganas?
-          | &nbsp;
-          small
-            a(href="" ng-click="redeemCode.contentCode = null; redeemCode.code = null") Volve atras
-          | &nbsp;
-          small y segui canjeando!
+              | Todavia no hay contenidos cargados para este codigo
+            h4
+              | Volve a intentar en unos dias!
+            .back-button-container
+              a.btn.btn-default.btn-sm(
+                href=""
+                ng-click="redeemCode.contentCode = null; redeemCode.code = null"
+              ) Canjear otro codigo
+
+            .vertical-space
+
+          div(ng-if="redeemCode.hasContentItems()")
+            .back-button-container
+              a.btn.btn-default.btn-sm(
+                href=""
+                ng-click="redeemCode.contentCode = null; redeemCode.code = null"
+              ) Volver y canjear otro codigo
+
+            .vertical-space
+
+            .col-md-4.content-item-list
+
+              .list-group
+                a.list-group-item(
+                  ng-repeat="contentItem in redeemCode.contentCode.content track by $index"
+                  ng-click="redeemCode.selectContentItem(contentItem)"
+                  ng-class="{ active: redeemCode.isSelected(contentItem) }"
+                )
+                  .list-group-item-heading.text-left
+                    span.glyphicon.glyphicon-headphones
+                    | &nbsp;
+                    | {{ $index + 1 }}
+                    | &nbsp;
+                    | |
+                    | &nbsp;
+                    | {{ contentItem.title }}
+            .col-md-7.content-item-container(ng-if="redeemCode.isAnyContentItemSelected()")
+              .media
+                .media-body.text-left
+                  h4.media-heading {{ redeemCode.selectedContentItem.title }}
+                  p {{ redeemCode.selectedContentItem.description }}
+                  p.text-center
+                    audio(controls)
+                      source(ng-src="{{ redeemCode.contentSource() }}" type="audio/mpeg")
+                      | Tu navegador no soporta la reproduccion de audios nativa.
+                  p
+                    a.btn.btn-primary.btn-xs(
+                      ng-href="{{ this.selectedContentItem.imageUrl }}"
+                      target="_blank"
+                    ) Descargar
+
+                .media-right
+                  img.media-object.content-code-image(
+                    ng-if="redeemCode.selectedContentItem.imageUrl"
+                    ng-src="{{ redeemCode.selectedContentItem.imageUrl }}"
+                  )

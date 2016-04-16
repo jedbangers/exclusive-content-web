@@ -13,6 +13,11 @@ body {
     text-align: left;
   }
 
+  .logo {
+    max-width: 175px;
+    height: auto;
+  }
+
   .redeem-code-container {
     min-height : @redeemCodeContainerMinHeight;
 
@@ -34,7 +39,7 @@ body {
     }
 
     .content-code {
-      max-width: 700px;
+      max-width: 1000px;
       margin: 0 auto;
 
       h3 {
@@ -42,14 +47,20 @@ body {
       }
 
       .content-code-image {
-        width: 200px;
-        height: auto;
+        width: auto;
+        max-height: 200px;
         border-radius: 5px;
       }
 
-      .back-button-container {
-        margin-top: 20px;
+      .content-item-container {
+        padding-top: 12px;
+        border-top: 1px solid dimgray;
       }
+
+      .content-item-list {
+        padding-left: 0;
+      }
+
     }
   }
 

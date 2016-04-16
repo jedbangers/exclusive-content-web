@@ -60,9 +60,12 @@ router.get('/code/:code',
     populateTo : 'fetchedContentCode',
     fields     : Settings.ContentCode.paths.join(' ')
   }),
-  (req, res) => {
-    const cc = _.omit(req.fetchedContentCode.toObject(), 'content');
-    Response.Ok(res)(cc);
+  (req, res, next) => {
+    Bluebird.try(() => {
+      return req.fetchedContentCode.toObject();
+    })
+    .then(Response.Ok(res))
+    .catch(next);
   }
 );
 
