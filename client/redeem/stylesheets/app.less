@@ -58,16 +58,21 @@ body {
       }
 
       .content-code-image {
-        width: auto;
         max-height: 200px;
         border-radius: 5px;
+
+        &.content-code-image-xs {
+          max-width: 100px;
+        }
+      }
+
+      .content-item-row {
+        margin-bottom : 20px;
       }
 
       .content-item-container {
-        padding-top : 12px;
         border-top  : 1px solid dimgray;
-        height      : 300px;
-        overflow    : hidden;
+        padding-top : 12px;
       }
 
       .content-item-index-container {

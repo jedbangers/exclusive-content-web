@@ -67,35 +67,51 @@
 
             .row.vertical-space
 
-            .row(ng-repeat="contentItem in redeemCode.contentCode.content track by $index")
-              .col-md-1.col-md-offset-1.content-item-index-container
-                h4
+            .row.content-item-row(
+              ng-repeat="contentItem in redeemCode.contentCode.content track by $index"
+            )
+              .col-xs-1.col-md-1.col-md-offset-1.content-item-index-container
+                h5
                   span.glyphicon.glyphicon-headphones
-              .col-md-8
+              .col-xs-11.col-md-8
                 .content-item-container
-                  .media
-                    .media-body.text-left
-                      h4.media-heading {{ contentItem.title }}
-                      p {{ contentItem.description }}
-                      p
-                        audio(controls)
-                          source(
-                            type="audio/mp3"
-                            msrc="{{ contentItem.url }}"
-                            html5-media-src
-                          )
-                          | Tu navegador no soporta la reproduccion de audios nativa.
-                      p
-                        a.btn.btn-primary.btn-xs(
-                          ng-href="{{ contentItem.url }}"
-                          target="_blank"
-                        ) Descargar
+                  .hidden-xs
+                    .media
+                      .media-body.text-left
+                        h4.media-heading {{ contentItem.title }}
+                        p {{ contentItem.description }}
+                        p
+                          audio(controls)
+                            source(type="audio/mp3" msrc="{{ contentItem.url }}" html5-media-src)
+                            | Tu navegador no soporta la reproduccion de audios nativa.
+                        p
+                          a.btn.btn-primary.btn-xs(ng-href="{{ contentItem.url }}" target="_blank")
+                            | Descargar
 
-                    .media-right
-                      img.media-object.content-code-image(
-                        ng-if="contentItem.imageUrl"
-                        ng-src="{{ contentItem.imageUrl }}"
-                      )
+                      .media-right
+                        img.media-object.content-code-image(
+                          ng-if="contentItem.imageUrl"
+                          ng-src="{{ contentItem.imageUrl }}"
+                        )
+
+                  .visible-xs
+                    .media
+                      .media-body.text-left
+                        h4.media-heading {{ contentItem.title }}
+                        p {{ contentItem.description }}
+                      .media-right
+                        img.media-object.content-code-image.content-code-image-xs(
+                          ng-if="contentItem.imageUrl"
+                          ng-src="{{ contentItem.imageUrl }}"
+                        )
+                    p
+                      audio(controls)
+                        source(type="audio/mp3" msrc="{{ contentItem.url }}" html5-media-src)
+                        | Tu navegador no soporta la reproduccion de audios nativa.
+                    p
+                      a.btn.btn-primary.btn-xs(ng-href="{{ contentItem.url }}" target="_blank")
+                        | Descargar
+
     .footer-push
 
   footer.footer
