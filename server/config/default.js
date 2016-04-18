@@ -65,5 +65,8 @@ module.exports = {
     host     : process.env.REDIS_URL ? url.parse(process.env.REDIS_URL).hostname           : undefined,
     port     : process.env.REDIS_URL ? url.parse(process.env.REDIS_URL).port               : undefined,
     pass     : process.env.REDIS_URL ? url.parse(process.env.REDIS_URL).auth.split(':')[1] : undefined
+  },
+  googleAnalytics: {
+    trackingId: process.env.GOOGLE_ANALYTICS_TRACKING_ID
   }
 };

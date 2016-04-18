@@ -26,5 +26,8 @@ module.exports = {
   },
   mongo: {
     uri: 'mongodb://localhost/jedbangers_exclusive_content_dev'
+  },
+  googleAnalytics: {
+    trackingId: 'UA-76570826-1'
   }
 };

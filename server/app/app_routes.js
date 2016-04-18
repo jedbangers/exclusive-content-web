@@ -19,6 +19,9 @@ function serveBundledView(view, page, bundleMappingsPath) {
         scripts  : {
           commons : mappings.commons.js,
           app     : mappings[page].js
+        },
+        googleAnalytics: {
+          trackingId: config.googleAnalytics ? config.googleAnalytics.trackingId : null
         }
       });
     })
