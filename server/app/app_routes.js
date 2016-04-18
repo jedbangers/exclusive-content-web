@@ -11,6 +11,11 @@ const enforceSSL = RouteUtils.enforceSSL({ port: config.server.ssl.port });
 
 function serveBundledView(view, page, bundleMappingsPath) {
   return function(req, res, next) {
+    const googleAnalytics = config.googleAnalytics ? {
+      trackingId    : config.googleAnalytics.trackingId,
+      cookieOptions : config.googleAnalytics.cookieOptions
+    } : null;
+
     fs.readFileAsync(bundleMappingsPath)
     .then(JSON.parse)
     .then(function(mappings) {
@@ -20,9 +25,7 @@ function serveBundledView(view, page, bundleMappingsPath) {
           commons : mappings.commons.js,
           app     : mappings[page].js
         },
-        googleAnalytics: {
-          trackingId: config.googleAnalytics ? config.googleAnalytics.trackingId : null
-        }
+        googleAnalytics
       });
     })
     .catch(next);

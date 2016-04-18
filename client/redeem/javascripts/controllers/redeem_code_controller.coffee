@@ -29,6 +29,12 @@ module.exports = ($http) ->
 
   this.hasContentItems = => this.contentCode.content && this.contentCode.content.length > 0
 
+  this.downloadContentItemAnalyticsValue = (ci) =>
+    JSON.stringify
+      code        : this.code
+      contentCode : this.contentCode._id
+      contentItem : ci._id
+
   # "NOTE!: Considering CoffeeScript automatically returns the last line,
   # we must place a return statement at the bottom so the controller doesn't
   # return anything. In most cases you do not need the return statement.

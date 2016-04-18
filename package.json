@@ -39,6 +39,8 @@
     "angular-spinner": "^0.8.1",
     "angular-ui-bootstrap": "^0.14.3",
     "angular-ui-router": "^0.2.15",
+    "angulartics": "^1.0.3",
+    "angulartics-google-analytics": "^0.1.4",
     "bluebird": "^2.3.11",
     "body-parser": "^1.9.1",
     "bootstrap": "^3.3.5",

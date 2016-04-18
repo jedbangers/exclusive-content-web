@@ -41,6 +41,10 @@
           button.btn.btn-lg.btn-default(
             type        = "submit"
             ng-disabled = "!redeemCode.code"
+            analytics-on       = "click"
+            analytics-event    = "redeem_code"
+            analytics-category = "redeem"
+            analytics-value    = "{{ redeemCode.code }}"
           ) Canjear codigo
 
         .content-code(ng-if="!redeemCode.loading && redeemCode.contentCode")
@@ -55,6 +59,9 @@
                 a.btn.btn-default.btn-sm(
                   href=""
                   ng-click="redeemCode.contentCode = null; redeemCode.code = null"
+                  analytics-on       = "click"
+                  analytics-event    = "back_to_redeem_code"
+                  analytics-category = "redeemed_contents"
                 ) Canjear otro codigo
 
           div(ng-if="redeemCode.hasContentItems()")
@@ -63,6 +70,9 @@
                 a.btn.btn-default.btn-sm(
                   href=""
                   ng-click="redeemCode.contentCode = null; redeemCode.code = null"
+                  analytics-on       = "click"
+                  analytics-event    = "back_to_redeem_code"
+                  analytics-category = "redeemed_contents"
                 ) Volver y canjear otro codigo
 
             .row.vertical-space
@@ -82,11 +92,25 @@
                         p {{ contentItem.description }}
                         p
                           audio(controls)
-                            source(type="audio/mp3" msrc="{{ contentItem.url }}" html5-media-src)
+                            source(
+                              type="audio/mp3"
+                              msrc="{{ contentItem.url }}"
+                              html5-media-src
+                              analytics-on       = "play"
+                              analytics-event    = "play_content"
+                              analytics-category = "redeemed_contents"
+                              analytics-value    = "{{ redeemCode.downloadContentItemAnalyticsValue(contentItem) }}"
+                            )
                             | Tu navegador no soporta la reproduccion de audios nativa.
                         p
-                          a.btn.btn-primary.btn-xs(ng-href="{{ contentItem.url }}" target="_blank")
-                            | Descargar
+                          a.btn.btn-primary.btn-xs(
+                            target  = "_blank"
+                            ng-href = "{{ contentItem.url }}"
+                            analytics-on       = "click"
+                            analytics-event    = "download_content"
+                            analytics-category = "redeemed_contents"
+                            analytics-value    = "{{ redeemCode.downloadContentItemAnalyticsValue(contentItem) }}"
+                          ) Descargar
 
                       .media-right
                         img.media-object.content-code-image(
@@ -106,10 +130,25 @@
                         )
                     p
                       audio(controls)
-                        source(type="audio/mp3" msrc="{{ contentItem.url }}" html5-media-src)
+                        source(
+                          type="audio/mp3"
+                          msrc="{{ contentItem.url }}"
+                          html5-media-src
+                          analytics-on       = "play"
+                          analytics-event    = "play_content"
+                          analytics-category = "redeemed_contents"
+                          analytics-value    = "{{ redeemCode.downloadContentItemAnalyticsValue(contentItem) }}"
+                        )
                         | Tu navegador no soporta la reproduccion de audios nativa.
                     p
-                      a.btn.btn-primary.btn-xs(ng-href="{{ contentItem.url }}" target="_blank")
+                      a.btn.btn-primary.btn-xs(
+                        target="_blank"
+                        ng-href="{{ contentItem.url }}"
+                        analytics-on       = "click"
+                        analytics-event    = "download_content"
+                        analytics-category = "redeemed_contents"
+                        analytics-value    = "{{ redeemCode.downloadContentItemAnalyticsValue(contentItem) }}"
+                      )
                         | Descargar
 
     .footer-push

@@ -1,9 +1,13 @@
 'use strict'
 
+angular = require 'angular'
+
 require 'angular-spinner'
 require 'angular-loading-spinner'
+require 'angulartics'
 
-angular                      = require 'angular'
+angularticsGoogleAnalytics = require 'angulartics-google-analytics'
+
 connectionRefusedInterceptor = require '../../../commons/javascripts/modules/connection_refused_interceptor'
 errorModal                   = require '../../../commons/javascripts/modules/error_modal'
 html5MediaSrc                = require '../../../commons/javascripts/modules/html5_media_src'
@@ -13,6 +17,8 @@ angular
 .module 'codeRedeemer', [
   'angularSpinner'
   'ngLoadingSpinner'
+  'angulartics'
+  angularticsGoogleAnalytics
   connectionRefusedInterceptor
   errorModal
   html5MediaSrc
@@ -20,7 +26,12 @@ angular
 
 .controller 'RedeemCodeController', redeemCodeController
 
-.config ($locationProvider) ->
+.config ($locationProvider, $analyticsProvider) ->
+
+  # https://github.com/angulartics/angulartics#full-path-tracking-for-pages-without-a-router
+  # $analyticsProvider.firstPageview true
+  # $analyticsProvider.withBase true
+
   $locationProvider.html5Mode true
   $locationProvider.hashPrefix '!'
 

@@ -67,6 +67,7 @@ module.exports = {
     pass     : process.env.REDIS_URL ? url.parse(process.env.REDIS_URL).auth.split(':')[1] : undefined
   },
   googleAnalytics: {
-    trackingId: process.env.GOOGLE_ANALYTICS_TRACKING_ID
+    trackingId: process.env.GOOGLE_ANALYTICS_TRACKING_ID,
+    cookieOptions: 'auto'
   }
 };
