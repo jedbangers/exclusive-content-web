@@ -28,12 +28,14 @@ angular
 
 .config ($locationProvider, $analyticsProvider) ->
 
-  # https://github.com/angulartics/angulartics#full-path-tracking-for-pages-without-a-router
-  # $analyticsProvider.firstPageview true
-  # $analyticsProvider.withBase true
+  $analyticsProvider.virtualPageviews false
 
-  $locationProvider.html5Mode true
-  $locationProvider.hashPrefix '!'
+  # https://github.com/angulartics/angulartics#full-path-tracking-for-pages-without-a-router
+  $analyticsProvider.firstPageview true
+  $analyticsProvider.withBase true
+
+#   $locationProvider.html5Mode true
+#   $locationProvider.hashPrefix '!'
 
 .run ($rootScope, errorModal) ->
 
