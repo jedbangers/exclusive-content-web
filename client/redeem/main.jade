@@ -41,10 +41,9 @@
           button.btn.btn-lg.btn-default(
             type        = "submit"
             ng-disabled = "!redeemCode.code"
-            analytics-on       = "click"
-            analytics-event    = "redeem_code"
-            analytics-category = "redeem"
-            analytics-value    = "{{ redeemCode.code }}"
+            analytics-on    = "click"
+            analytics-event = "Redeem code"
+            analytics-label = "{{ redeemCode.code }}"
           ) Canjear codigo
 
         .content-code(ng-if="!redeemCode.loading && redeemCode.contentCode")
@@ -57,23 +56,21 @@
                 | Volve a intentar en unos dias!
               .back-button-container
                 a.btn.btn-default.btn-sm(
-                  href=""
-                  ng-click="redeemCode.contentCode = null; redeemCode.code = null"
-                  analytics-on       = "click"
-                  analytics-event    = "back_to_redeem_code"
-                  analytics-category = "redeemed_contents"
+                  href     = ""
+                  ng-click = "redeemCode.contentCode = null; redeemCode.code = null"
+                  analytics-on    = "click"
+                  analytics-event = "Back to redeem code page"
                 ) Canjear otro codigo
 
           div(ng-if="redeemCode.hasContentItems()")
             .row
               .back-button-container
                 a.btn.btn-default.btn-sm(
-                  href=""
-                  ng-click="redeemCode.contentCode = null; redeemCode.code = null"
-                  analytics-on       = "click"
-                  analytics-event    = "back_to_redeem_code"
-                  analytics-category = "redeemed_contents"
-                ) Volver y canjear otro codigo
+                  href     = ""
+                  ng-click = "redeemCode.contentCode = null; redeemCode.code = null"
+                  analytics-on    = "click"
+                  analytics-event = "Back to redeem code page"
+                ) Canjear otro codigo
 
             .row.vertical-space
 
@@ -97,19 +94,20 @@
                               msrc="{{ contentItem.url }}"
                               html5-media-src
                               analytics-on       = "play"
-                              analytics-event    = "play_content"
-                              analytics-category = "redeemed_contents"
-                              analytics-value    = "{{ redeemCode.downloadContentItemAnalyticsValue(contentItem) }}"
+                              analytics-event    = "Play content"
+                              analytics-category = "Contents"
+                              analytics-label    = "{{ redeemCode.downloadContentItemAnalyticsValue(contentItem) }}"
                             )
                             | Tu navegador no soporta la reproduccion de audios nativa.
                         p
                           a.btn.btn-primary.btn-xs(
                             target  = "_blank"
                             ng-href = "{{ contentItem.url }}"
+                            download
                             analytics-on       = "click"
-                            analytics-event    = "download_content"
-                            analytics-category = "redeemed_contents"
-                            analytics-value    = "{{ redeemCode.downloadContentItemAnalyticsValue(contentItem) }}"
+                            analytics-event    = "Download content"
+                            analytics-category = "Contents"
+                            analytics-label    = "{{ redeemCode.downloadContentItemAnalyticsValue(contentItem) }}"
                           ) Descargar
 
                       .media-right
@@ -135,19 +133,20 @@
                           msrc="{{ contentItem.url }}"
                           html5-media-src
                           analytics-on       = "play"
-                          analytics-event    = "play_content"
-                          analytics-category = "redeemed_contents"
-                          analytics-value    = "{{ redeemCode.downloadContentItemAnalyticsValue(contentItem) }}"
+                          analytics-event    = "Play content"
+                          analytics-category = "Contents"
+                          analytics-label    = "{{ redeemCode.downloadContentItemAnalyticsValue(contentItem) }}"
                         )
                         | Tu navegador no soporta la reproduccion de audios nativa.
                     p
                       a.btn.btn-primary.btn-xs(
                         target="_blank"
                         ng-href="{{ contentItem.url }}"
+                        download
                         analytics-on       = "click"
-                        analytics-event    = "download_content"
-                        analytics-category = "redeemed_contents"
-                        analytics-value    = "{{ redeemCode.downloadContentItemAnalyticsValue(contentItem) }}"
+                        analytics-event    = "Download content"
+                        analytics-category = "Contents"
+                        analytics-label    = "{{ redeemCode.downloadContentItemAnalyticsValue(contentItem) }}"
                       )
                         | Descargar
 
