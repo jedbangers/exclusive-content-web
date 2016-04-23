@@ -26,16 +26,13 @@ angular
 
 .controller 'RedeemCodeController', redeemCodeController
 
-.config ($locationProvider, $analyticsProvider) ->
+.config ($analyticsProvider) ->
 
   $analyticsProvider.virtualPageviews false
 
   # https://github.com/angulartics/angulartics#full-path-tracking-for-pages-without-a-router
   $analyticsProvider.firstPageview true
   $analyticsProvider.withBase true
-
-#   $locationProvider.html5Mode true
-#   $locationProvider.hashPrefix '!'
 
 .run ($rootScope, errorModal) ->
 
