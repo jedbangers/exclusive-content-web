@@ -9,9 +9,10 @@ const streamRouter = require('../routes/stream');
 
 const enforceSSL = RouteUtils.enforceSSL({ port: config.server.ssl.port });
 
-function serveBundledView(view, page, bundleMappingsPath) {
+function serveBundledView(view, page, enableGoogleAnalytics, bundleMappingsPath) {
   return function(req, res, next) {
-    const googleAnalytics = config.googleAnalytics ? {
+    const googleAnalytics = config.googleAnalytics && enableGoogleAnalytics ? {
+      debug         : config.env !== config.environments.production,
       trackingId    : config.googleAnalytics.trackingId,
       cookieOptions : config.googleAnalytics.cookieOptions
     } : null;
@@ -46,8 +47,8 @@ module.exports = function(app) {
   }));
 
   // app.use('/web',       serveBundledView('index', 'web',       config.app.assets.mappings));
-  app.use('/dashboard', serveBundledView('index', 'dashboard', config.app.assets.mappings));
-  app.use('/redeem',    serveBundledView('index', 'redeem',    config.app.assets.mappings));
+  app.use('/dashboard', serveBundledView('index', 'dashboard', false, config.app.assets.mappings));
+  app.use('/redeem',    serveBundledView('index', 'redeem',    true, config.app.assets.mappings));
 
   // URL rewrite for non-HTML5 browsers
   // Just send the index.html for other files to support HTML5Mode
