@@ -87,24 +87,14 @@
                       .media-body.text-left
                         h4.media-heading {{ contentItem.title }}
                         p {{ contentItem.description }}
-                        p
-                          content-player(content="contentItem")
-                        p
-                          a.btn.btn-primary.btn-xs(
-                            target  = "_blank"
-                            ng-href = "{{ contentItem.url }}"
-                            download
-                            analytics-on       = "click"
-                            analytics-event    = "Download content"
-                            analytics-category = "Contents"
-                            analytics-label    = "{{ redeemCode.downloadContentItemAnalyticsValue(contentItem) }}"
-                          ) Descargar
 
                       .media-right
-                        img.media-object.content-code-image(
+                        .media-object.content-code-image(
                           ng-if="contentItem.imageUrl"
-                          ng-src="{{ contentItem.imageUrl }}"
+                          style="background-image: url({{ contentItem.imageUrl }});"
                         )
+                    p
+                      content-player(content="contentItem")
 
                   .visible-xs
                     .media
@@ -112,23 +102,12 @@
                         h4.media-heading {{ contentItem.title }}
                         p {{ contentItem.description }}
                       .media-right
-                        img.media-object.content-code-image.content-code-image-xs(
+                        .media-object.content-code-image(
                           ng-if="contentItem.imageUrl"
-                          ng-src="{{ contentItem.imageUrl }}"
+                          style="background-image: url({{ contentItem.imageUrl }});"
                         )
                     p
                       content-player(content="contentItem")
-                    p
-                      a.btn.btn-primary.btn-xs(
-                        target="_blank"
-                        ng-href="{{ contentItem.url }}"
-                        download
-                        analytics-on       = "click"
-                        analytics-event    = "Download content"
-                        analytics-category = "Contents"
-                        analytics-label    = "{{ redeemCode.downloadContentItemAnalyticsValue(contentItem) }}"
-                      )
-                        | Descargar
 
     .footer-push
 
