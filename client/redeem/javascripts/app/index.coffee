@@ -12,6 +12,7 @@ connectionRefusedInterceptor = require '../../../commons/javascripts/modules/con
 errorModal                   = require '../../../commons/javascripts/modules/error_modal'
 html5MediaSrc                = require '../../../commons/javascripts/modules/html5_media_src'
 redeemCodeController         = require '../controllers/redeem_code_controller'
+contentPlayer                = require '../directives/content_player'
 
 angular
 .module 'codeRedeemer', [
@@ -25,6 +26,7 @@ angular
 ]
 
 .controller 'RedeemCodeController', redeemCodeController
+.directive 'contentPlayer', contentPlayer
 
 .config ($analyticsProvider) ->
 
