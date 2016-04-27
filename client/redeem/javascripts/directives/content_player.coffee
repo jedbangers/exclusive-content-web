@@ -33,7 +33,7 @@ module.exports = ->
         </iframe>
       </div>
 
-      <div ng-if="!ctrl.isVideoURL()" class="content-player-container">
+      <div ng-if="!ctrl.isVideoURL()" class="content-player-container content-player-audio">
         <audio controls>
           <source
             type="audio/mp3"
