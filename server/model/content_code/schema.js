@@ -23,7 +23,15 @@ schema.plugin(validations);
 schema.plugin(mongooseDelete, { overrideMethods: 'all' });
 
 function transform(doc, ret) {
-  return _.pick(ret, Settings.ContentCode.paths);
+  let result = _.cloneDeep(ret);
+  result = _.pick(ret, Settings.ContentCode.paths);
+
+  // Sort by created date. It would be better to add a created_at field.
+  result.content = _.sortBy(result.content, (ci) => {
+    return -ci._id.getTimestamp();
+  });
+
+  return result;
 }
 
 schema.set('toJSON',   { transform });
