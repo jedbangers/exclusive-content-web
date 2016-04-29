@@ -34,16 +34,14 @@ module.exports = ->
       </div>
 
       <div ng-if="!ctrl.isVideoURL()" class="content-player-container content-player-audio">
-        <audio controls>
-          <source
-            type="audio/mp3"
-            msrc="{{ ctrl.content.url }}"
-            html5-media-src
-            analytics-on       = "play"
-            analytics-event    = "Play content"
-            analytics-category = "Contents"
-            analytics-label    = "{{ ctrl.gaLabel() }}" >
-          </source>
+        <audio
+          controls
+          analytics-on       = "play"
+          analytics-event    = "Play content"
+          analytics-category = "Contents"
+          analytics-label    = "{{ ctrl.gaLabel() }}"
+        >
+          <source type="audio/mp3" msrc="{{ ctrl.content.url }}" html5-media-src></source>
           Tu navegador no soporta la reproduccion de audio de manera nativa.
         </audio>
 
