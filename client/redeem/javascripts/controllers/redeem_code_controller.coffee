@@ -4,43 +4,48 @@ _ = require 'lodash'
 
 module.exports = ($http, $localForage) ->
 
-  fetchContentCode = (code) =>
+  buildCacheContent = (content, redeemedAt) ->
+    code: content.code
+    name: content.name
+    redeemedAt: redeemedAt
+
+  this.fetchContentCode = (code) =>
     $localForage.getItem(code)
-    .then (data) ->
-      return data if data
+    .then (cached) =>
       $http
         method: 'GET'
         url: "/api/contentCodes/code/#{code}"
 
       .then (res) =>
         item = res.data
-        item.redeemedAt = Date.now()
+        cache = buildCacheContent(item, if cached then cached.redeemedAt else Date.now())
         # Cache redeem code using local forage
-        $localForage.setItem code, item
-        .then -> item
+        $localForage.setItem code, cache
+        .then => this.fetchRedeemedCodes()
+        .then ->
+          item
 
-  fetchRedeemedCodes = ->
+  this.fetchRedeemedCodes = =>
     $localForage.keys()
     .then (keys) -> $localForage.getItem(keys)
     .then (items) -> _.sortBy items, (i) -> -i.redeemedAt
+    .then (redeemedCodes) => this.redeemedCodes = redeemedCodes
 
-  fetchRedeemedCodes().then (redeemedCodes) => this.redeemedCodes = redeemedCodes
+  this.fetchRedeemedCodes()
 
-  this.doRedeem = =>
+  this.doRedeem = => this.goToContent(this.code)
+
+  this.goToContent = (code) =>
     this.clearErrors()
-
     this.loading = true
-
-    fetchContentCode(this.code)
+    this.fetchContentCode(code)
     .then (contentCode) =>
-      this.redeemedCodes.unshift contentCode
       this.contentCode = contentCode
     .catch (err) =>
       if err.status != -1
         this.error =
           title   : "An #{err.status} error has occurred"
           message : if err.data && err.data.message then err.data.message else err.statusText
-
     .then =>
       delete this.loading
 

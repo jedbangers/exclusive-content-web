@@ -43,11 +43,13 @@
               analytics-label = "{{ ctrl.code }}"
             ) Canjear codigo
 
-          .redeemed-codes-container.col-md-6.col-md-offset-3(ng-if="ctrl.redeemedCodes")
+          .redeemed-codes-container.col-md-6.col-md-offset-3(
+            ng-if="ctrl.redeemedCodes && ctrl.redeemedCodes.length > 0"
+          )
             h3 Últimos canjeados
             .redeemed-codes
-              div(ng-repeat="contentCode in ctrl.redeemedCodes track by $index")
-                redeemed-code(content="contentCode" on-click="ctrl.contentCode = contentCode")
+              div(ng-repeat="contentCache in ctrl.redeemedCodes track by $index")
+                redeemed-code(content="contentCache" on-click="ctrl.goToContent(contentCache.code)")
                 hr
 
         .content-code(ng-if="!ctrl.loading && ctrl.contentCode")
