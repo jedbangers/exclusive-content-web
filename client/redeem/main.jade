@@ -6,49 +6,53 @@
 
       .row.vertical-space
 
-      .row.redeem-code-container(ng-controller="RedeemCodeController as redeemCode")
-        .loading-spinner(ng-if="redeemCode.loading")
+      .row.redeem-code-container(ng-controller="RedeemCodeController as ctrl")
+        .loading-spinner(ng-if="ctrl.loading")
           span(us-spinner="{ lines: 6, speed: 2, length: 0, width: 10, radius: 10 }")
 
-        form(
-          ng-if     = "!redeemCode.loading && !redeemCode.contentCode"
-          name      = "redeemCode.contentCodeForm"
-          ng-submit = "redeemCode.doRedeem()"
-        )
+        .redeem-code(ng-if="!ctrl.loading && !ctrl.contentCode")
+          form(name="ctrl.contentCodeForm" ng-submit="ctrl.doRedeem()")
 
-          .alert.alert-danger.alert-dismissable(ng-show="redeemCode.error")
-            button.close(type="button" ng-click="redeemCode.clearErrors()") &times;
-            .text-left
-              small.glyphicon.glyphicon-exclamation-sign
-              small.sr-only Error
-              small &nbsp;
-              small {{ redeemCode.error.title }}
+            .alert.alert-danger.alert-dismissable(ng-show="ctrl.error")
+              button.close(type="button" ng-click="ctrl.clearErrors()") &times;
+              .text-left
+                small.glyphicon.glyphicon-exclamation-sign
+                small.sr-only Error
+                small &nbsp;
+                small {{ ctrl.error.title }}
 
 
-            .text-center
-              small &nbsp; &nbsp; &nbsp; &nbsp;
-              small
-                strong {{ redeemCode.error.message }}
+              .text-center
+                small &nbsp; &nbsp; &nbsp; &nbsp;
+                small
+                  strong {{ ctrl.error.message }}
 
-          .form-group
-            label(for="") Introduce el codigo exclusivo de descarga
-            input.input-lg.form-control(
-              type        = "text"
-              ng-model    = "redeemCode.code"
-              placeholder = "ej: O6Z6Z6Y"
-            )
+            .form-group
+              label(for="") Introduce el codigo exclusivo de descarga
+              input.input-lg.form-control(
+                type        = "text"
+                ng-model    = "ctrl.code"
+                placeholder = "ej: O6Z6Z6Y"
+              )
 
-          button.btn.btn-lg.btn-default(
-            type        = "submit"
-            ng-disabled = "!redeemCode.code"
-            analytics-on    = "click"
-            analytics-event = "Redeem code"
-            analytics-label = "{{ redeemCode.code }}"
-          ) Canjear codigo
+            button.btn.btn-lg.btn-default(
+              type        = "submit"
+              ng-disabled = "!ctrl.code"
+              analytics-on    = "click"
+              analytics-event = "Redeem code"
+              analytics-label = "{{ ctrl.code }}"
+            ) Canjear codigo
 
-        .content-code(ng-if="!redeemCode.loading && redeemCode.contentCode")
+          .redeemed-codes-container.col-md-6.col-md-offset-3(ng-if="ctrl.redeemedCodes")
+            h3 Últimos canjeados
+            .redeemed-codes
+              div(ng-repeat="contentCode in ctrl.redeemedCodes track by $index")
+                redeemed-code(content="contentCode" on-click="ctrl.contentCode = contentCode")
+                hr
 
-          div(ng-if="!redeemCode.hasContentItems()")
+        .content-code(ng-if="!ctrl.loading && ctrl.contentCode")
+
+          div(ng-if="!ctrl.hasContentItems()")
             .row
               h3
                 | Todavia no hay contenidos cargados para este codigo
@@ -57,17 +61,17 @@
               .back-button-container
                 a.btn.btn-default.btn-sm(
                   href     = ""
-                  ng-click = "redeemCode.contentCode = null; redeemCode.code = null"
+                  ng-click = "ctrl.goBack()"
                   analytics-on    = "click"
                   analytics-event = "Back to redeem code page"
                 ) Canjear otro codigo
 
-          div(ng-if="redeemCode.hasContentItems()")
+          div(ng-if="ctrl.hasContentItems()")
             .row
               .back-button-container
                 a.btn.btn-default.btn-sm(
                   href     = ""
-                  ng-click = "redeemCode.contentCode = null; redeemCode.code = null"
+                  ng-click = "ctrl.goBack()"
                   analytics-on    = "click"
                   analytics-event = "Back to redeem code page"
                 ) Canjear otro codigo
@@ -75,7 +79,7 @@
             .row.vertical-space
 
             .row.content-item-row(
-              ng-repeat="contentItem in redeemCode.contentCode.content track by $index"
+              ng-repeat="contentItem in ctrl.contentCode.content track by $index"
             )
               .col-xs-1.col-md-1.col-md-offset-1.content-item-index-container
                 h5
@@ -94,7 +98,7 @@
                           style="background-image: url({{ contentItem.imageUrl }});"
                         )
                     p
-                      content-player(code="redeemCode.code" content="contentItem")
+                      content-player(code="ctrl.code" content="contentItem")
 
                   .visible-xs
                     .media
@@ -107,7 +111,7 @@
                           style="background-image: url({{ contentItem.imageUrl }});"
                         )
                     p
-                      content-player(code="redeemCode.code" content="contentItem")
+                      content-player(code="ctrl.code" content="contentItem")
 
     .footer-push
 

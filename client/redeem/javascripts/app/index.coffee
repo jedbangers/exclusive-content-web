@@ -1,10 +1,13 @@
 'use strict'
 
+require 'localforage'
+
 angular = require 'angular'
 
 require 'angular-spinner'
 require 'angular-loading-spinner'
 require 'angulartics'
+require 'imports?this=>window!angular-localforage'
 
 angularticsGoogleAnalytics = require 'angulartics-google-analytics'
 
@@ -13,6 +16,7 @@ errorModal                   = require '../../../commons/javascripts/modules/err
 html5MediaSrc                = require '../../../commons/javascripts/modules/html5_media_src'
 redeemCodeController         = require '../controllers/redeem_code_controller'
 contentPlayer                = require '../directives/content_player'
+redeemedCode                 = require '../directives/redeemed_code'
 
 angular
 .module 'codeRedeemer', [
@@ -23,18 +27,24 @@ angular
   connectionRefusedInterceptor
   errorModal
   html5MediaSrc
+  'LocalForageModule'
 ]
 
 .controller 'RedeemCodeController', redeemCodeController
 .directive 'contentPlayer', contentPlayer
+.directive 'redeemedCode', redeemedCode
 
-.config ($analyticsProvider) ->
+.config ($analyticsProvider, $localForageProvider) ->
 
   $analyticsProvider.virtualPageviews false
 
   # https://github.com/angulartics/angulartics#full-path-tracking-for-pages-without-a-router
   $analyticsProvider.firstPageview true
   $analyticsProvider.withBase true
+
+  $localForageProvider.config
+    name      : 'jeds'
+    storeName : 'redeemed'
 
 .run ($rootScope, errorModal) ->
 

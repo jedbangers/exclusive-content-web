@@ -1,18 +1,40 @@
 'use strict'
 
-module.exports = ($http) ->
+_ = require 'lodash'
+
+module.exports = ($http, $localForage) ->
+
+  fetchContentCode = (code) =>
+    $localForage.getItem(code)
+    .then (data) ->
+      return data if data
+      $http
+        method: 'GET'
+        url: "/api/contentCodes/code/#{code}"
+
+      .then (res) =>
+        item = res.data
+        item.redeemedAt = Date.now()
+        # Cache redeem code using local forage
+        $localForage.setItem code, item
+        .then -> item
+
+  fetchRedeemedCodes = ->
+    $localForage.keys()
+    .then (keys) -> $localForage.getItem(keys)
+    .then (items) -> _.sortBy items, (i) -> -i.redeemedAt
+
+  fetchRedeemedCodes().then (redeemedCodes) => this.redeemedCodes = redeemedCodes
 
   this.doRedeem = =>
     this.clearErrors()
 
     this.loading = true
 
-    $http
-      method: 'GET'
-      url: "/api/contentCodes/code/#{this.code}"
-    .then (res) =>
-      this.contentCode = res.data
-
+    fetchContentCode(this.code)
+    .then (contentCode) =>
+      this.redeemedCodes.unshift contentCode
+      this.contentCode = contentCode
     .catch (err) =>
       if err.status != -1
         this.error =
@@ -24,6 +46,10 @@ module.exports = ($http) ->
 
   this.clearErrors = =>
     delete this.error
+
+  this.goBack = =>
+    this.contentCode = null
+    this.code = null
 
   this.contentSource = (ci) => "/stream/#{ci.code}"
 
