@@ -28,7 +28,10 @@
                   strong {{ ctrl.error.message }}
 
             .form-group
-              label(for="") Introduce el codigo exclusivo de descarga
+              label(for="")
+                span Introduce el codigo exclusivo de descarga
+                br
+                small (indicado en la pagina 48 de la Jedbangers #100)
               input.input-lg.form-control(
                 type        = "text"
                 ng-model    = "ctrl.code"
