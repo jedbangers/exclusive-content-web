@@ -7,7 +7,7 @@ module.exports = {
   },
   values: {
     title       : { maxLength: 50 },
-    description : { maxLength: 255 }
+    description : { maxLength: 1024 }
   },
   errors: {
     title: {
@@ -15,7 +15,7 @@ module.exports = {
       maxLength: 'Content "title" is too long (max. 50 characters)'
     },
     description: {
-      maxLength: 'Content "description" is too long (max. 255 characters)'
+      maxLength: 'Content "description" is too long (max. 1024 characters)'
     },
     imageUrl: {
       invalid: 'Content "imageUrl" is not a valid URL'
