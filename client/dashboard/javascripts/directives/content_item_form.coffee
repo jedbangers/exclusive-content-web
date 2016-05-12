@@ -96,13 +96,12 @@ module.exports = ->
 
       <div class="form-group" ng-class="{ 'has-error': form.hasError(inputPrefix + 'url') }" class="row">
         <div class="col-md-7">
-          <label for="{{ inputPrefix }}url" class="control-label">URL *</label>
+          <label for="{{ inputPrefix }}url" class="control-label">URL</label>
           <input
             class="form-control"
             type="url"
             name="{{ inputPrefix }}url"
             ng-model="item.url"
-            required="required"
           />
         </div>
         <div class="col-md-5">
@@ -113,7 +112,6 @@ module.exports = ->
             ng-messages="form[inputPrefix + 'url'].$error"
           >
             <i class="fa fa-warning">&nbsp;</i>
-            <span ng-message="required">URL cannot be empty.</span>
             <span ng-message="url">URL is not a valid URL</span>
           </div>
         </div>

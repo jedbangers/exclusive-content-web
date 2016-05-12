@@ -6,8 +6,7 @@ const Settings  = require('../../../settings');
 
 module.exports = function(schema) {
 
-  schema.path('title') .required(true, Settings.Content.errors.title.required);
-  schema.path('url')   .required(true, Settings.Content.errors.url.required);
+  schema.path('title').required(true, Settings.Content.errors.title.required);
 
   schema.path('title').validate((value) => {
     return validator.isLength(value, 0, Settings.Content.values.title.maxLength);
@@ -21,6 +20,8 @@ module.exports = function(schema) {
     return _.isEmpty(value) || validator.isURL(value);
   }, Settings.Content.errors.imageUrl.invalid);
 
-  schema.path('url').validate(validator.isURL, Settings.Content.errors.url.invalid);
+  schema.path('url').validate((value) => {
+    return _.isEmpty(value) || validator.isURL(value);
+  }, Settings.Content.errors.url.invalid);
 
 };

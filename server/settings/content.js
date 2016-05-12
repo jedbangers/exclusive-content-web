@@ -21,7 +21,6 @@ module.exports = {
       invalid: 'Content "imageUrl" is not a valid URL'
     },
     url: {
-      required: 'Content "url" cannot be empty',
       invalid: 'Content "url" is not a valid URL'
     }
   }

@@ -103,7 +103,7 @@
                           style="background-image: url({{ contentItem.imageUrl }});"
                         )
                     p
-                      content-player(code="ctrl.code" content="contentItem")
+                      content-player(ng-if="contentItem.url" code="ctrl.code" content="contentItem")
 
                   .visible-xs
                     .media
@@ -116,7 +116,7 @@
                           style="background-image: url({{ contentItem.imageUrl }});"
                         )
                     p
-                      content-player(code="ctrl.code" content="contentItem")
+                      content-player(ng-if="contentItem.url" code="ctrl.code" content="contentItem")
 
     .footer-push
 
