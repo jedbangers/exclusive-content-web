@@ -16,7 +16,8 @@ module.exports = ->
 
     this.isVideoURL = =>
       this.content.url.indexOf('youtube') != -1 ||
-      this.content.url.indexOf('vimeo') != -1
+      this.content.url.indexOf('vimeo') != -1 ||
+      this.content.url.indexOf('dailymotion') != -1
 
     return
 

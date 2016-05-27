@@ -53,7 +53,7 @@ module.exports = function(app) {
     fontSrc    : [ "'self'", '*.fonts.gstatic.com' ],
     objectSrc  : [ "'self'" ],
     mediaSrc   : [ "'self'" ],
-    frameSrc   : [ "'self'", '*.vimeo.com', '*.youtube.com' ]
+    frameSrc   : [ "'self'", '*.vimeo.com', '*.youtube.com', '*.dailymotion.com' ]
   }));
 
   if (config.app.favicon) {
