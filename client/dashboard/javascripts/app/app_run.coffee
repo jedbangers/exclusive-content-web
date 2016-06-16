@@ -4,6 +4,19 @@ _ = require 'lodash'
 
 module.exports = ($rootScope, $state, AuthService, $templateCache, errorModal) ->
 
+  $rootScope.tinyMceOptions =
+    theme              : 'modern'
+    skin               : false
+    format             : 'raw'
+    resize             : false
+    trusted            : true
+    forced_root_blocks : false
+    height             : 500
+    # force_br_newlines : false
+    # force_p_newlines : false
+    plugins            : 'advlist autolink link image lists charmap print preview code textcolor'
+    toolbar            : 'undo redo | styleselect | bold italic | forecolor backcolor | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image'
+
   # Initial check of authentication
   AuthService.ensureAdminData().catch ->
     AuthService.deleteAdminData()

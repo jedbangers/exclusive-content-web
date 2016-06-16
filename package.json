@@ -40,6 +40,7 @@
     "angular-spinner": "^0.8.1",
     "angular-ui-bootstrap": "^0.14.3",
     "angular-ui-router": "^0.2.15",
+    "angular-ui-tinymce": "0.0.16",
     "angulartics": "^1.0.3",
     "angulartics-google-analytics": "^0.1.4",
     "bluebird": "^2.3.11",
@@ -75,6 +76,7 @@
     "serve-favicon": "^2.3.0",
     "simple-response": "0.0.3",
     "superagent": "^1.8.3",
+    "tinymce": "^4.3.13",
     "validator": "^3.43.0",
     "winston": "^0.8.1"
   },
@@ -87,6 +89,7 @@
     "errorhandler": "^1.2.2",
     "eslint": "^1.7.3",
     "eslint-config-flowics": "0.0.3",
+    "exports-loader": "^0.6.3",
     "expose-loader": "^0.7.0",
     "file-loader": "^0.8.4",
     "grunt": "^0.4.5",

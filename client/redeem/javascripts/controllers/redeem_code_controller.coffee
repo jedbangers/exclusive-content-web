@@ -2,12 +2,14 @@
 
 _ = require 'lodash'
 
-module.exports = ($http, $localForage) ->
+module.exports = ($http, $localForage, $sce) ->
 
   buildCacheContent = (content, redeemedAt) ->
     code: content.code
     name: content.name
     redeemedAt: redeemedAt
+
+  this.trustAsHtml = (resource) -> $sce.trustAsHtml(resource)
 
   this.fetchContentCode = (code) =>
     $localForage.getItem(code)

@@ -1,9 +1,24 @@
 'use strict'
 
+# TinyMCE
+require 'tinymce/tinymce'
+require 'tinymce/themes/modern/theme'
+require 'tinymce/plugins/advlist/plugin'
+require 'tinymce/plugins/autolink/plugin'
+require 'tinymce/plugins/link/plugin'
+require 'tinymce/plugins/image/plugin'
+require 'tinymce/plugins/lists/plugin'
+require 'tinymce/plugins/charmap/plugin'
+require 'tinymce/plugins/print/plugin'
+require 'tinymce/plugins/preview/plugin'
+require 'tinymce/plugins/code/plugin'
+require 'tinymce/plugins/textcolor/plugin'
+
 require 'angular-animate'
 require 'angular-breadcrumb'
 require 'angular-messages'
 require 'angular-ui-router'
+require 'angular-ui-tinymce'
 require 'ngstorage'
 require 'restangular'
 require 'angular-loading-bar'
@@ -49,6 +64,7 @@ appConfig = require './app_config'
 angular
 .module 'dashboard', [
   'ui.router'
+  'ui.tinymce'
   'restangular'
   'ngAnimate'
   'ngStorage'

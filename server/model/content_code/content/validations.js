@@ -12,9 +12,12 @@ module.exports = function(schema) {
     return validator.isLength(value, 0, Settings.Content.values.title.maxLength);
   }, Settings.Content.errors.title.maxLength);
 
-  schema.path('description').validate((value) => {
-    return validator.isLength(value, 0, Settings.Content.values.description.maxLength);
-  }, Settings.Content.errors.description.maxLength);
+  // Due to the capability of description to contain HTML,
+  // maxLength validation is now disabled. Too lazy to implement it properly,
+  // removing HTML tags before checking length.
+  // schema.path('description').validate((value) => {
+  //   return validator.isLength(value, 0, Settings.Content.values.description.maxLength);
+  // }, Settings.Content.errors.description.maxLength);
 
   schema.path('imageUrl').validate((value) => {
     return _.isEmpty(value) || validator.isURL(value);

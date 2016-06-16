@@ -50,11 +50,16 @@ module.exports = ->
         <div class="col-md-7">
           <label for="{{ inputPrefix }}description" class="control-label">Description</label>
           <textarea
+            ui-tinymce="tinyMceOptions"
             class="form-control"
             type="text"
             name="{{ inputPrefix }}description"
-            ng-model="item.description"
-            ng-maxlength="descriptionMaxLength" />
+            ng-model="item.description" />
+            <!--
+              Disabled maxlength validation. Too lazy to implement it properly due
+              to the usage of TinyMCE.
+              ng-maxlength="descriptionMaxLength"
+            -->
         </div>
         <div class="col-md-5">
           <br/>

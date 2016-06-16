@@ -97,7 +97,7 @@
                     .media
                       .media-body.text-left
                         h4.media-heading {{ contentItem.title }}
-                        p {{ contentItem.description }}
+                        p(ng-bind-html="ctrl.trustAsHtml(contentItem.description)")
 
                       .media-right
                         .media-object.content-code-image(
@@ -111,7 +111,7 @@
                     .media
                       .media-body.text-left
                         h4.media-heading {{ contentItem.title }}
-                        p {{ contentItem.description }}
+                        p(ng-bind-html="ctrl.trustAsHtml(contentItem.description)")
                       .media-right
                         .media-object.content-code-image(
                           ng-if="contentItem.imageUrl"
