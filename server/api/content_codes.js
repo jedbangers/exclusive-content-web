@@ -61,9 +61,7 @@ router.get('/code/:code',
     fields     : Settings.ContentCode.paths.join(' ')
   }),
   (req, res, next) => {
-    Bluebird.try(() => {
-      return req.fetchedContentCode.toObject();
-    })
+    Bluebird.try(() => req.fetchedContentCode.toObject())
     .then(Response.Ok(res))
     .catch(next);
   }

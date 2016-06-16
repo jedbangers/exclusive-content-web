@@ -165,7 +165,7 @@ describe('/api/contentCodes', function() {
       });
     });
 
-    it('/code/:code should return content code with _id = :id without its "content"', function() {
+    it('/code/:code should return content code with "code" = :code', function() {
       const cc = _.first(contentCodes);
       return agentUtils.withCookies(server.get(`/api/contentCodes/code/${cc.code}`))
       .expect(200)
@@ -173,8 +173,7 @@ describe('/api/contentCodes', function() {
       .endAsync()
       .then((res) => {
         TestUtils.assertObjectIds(cc._id, res.body._id);
-        expect(res.body.content).to.be.undefined;
-        TestUtils.assertUnorderedArrays(_.keys(res.body), [ '_id', 'name', 'code' ]);
+        TestUtils.assertUnorderedArrays(_.keys(res.body), [ '_id', 'name', 'code', 'content' ]);
       });
     });
 
@@ -280,11 +279,9 @@ describe('/api/contentCodes', function() {
       .endAsync()
       .then((res) => {
         expect(res.body.name).to.be.eql('ValidationError');
-        expect(_.keys(res.body.errors)).to.have.length(2);
+        expect(_.keys(res.body.errors)).to.have.length(1);
         expect(res.body.errors['content.1.title']).not.to.be.empty;
-        expect(res.body.errors['content.1.url']).not.to.be.empty;
         expect(res.body.errors['content.1.title'].message).to.be.eql(Settings.Content.errors.title.required);
-        expect(res.body.errors['content.1.url'].message).to.be.eql(Settings.Content.errors.url.required);
       });
     });
 
@@ -359,7 +356,7 @@ describe('/api/contentCodes', function() {
       });
     });
 
-    it('/ (content object with too long description) should fail', function() {
+    it.skip('/ (content object with too long description) should fail', function() {
       const obj = {
         name : 'something',
         content: [
