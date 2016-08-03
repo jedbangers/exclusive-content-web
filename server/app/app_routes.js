@@ -6,10 +6,11 @@ const fs           = require('fs');
 const RouteUtils   = require('../utils/route_utils');
 const api          = require('../api');
 const streamRouter = require('../routes/stream');
+const Settings     = require('../settings');
 
 const enforceSSL = RouteUtils.enforceSSL({ port: config.server.ssl.port });
 
-function serveBundledView(view, page, enableGoogleAnalytics, bundleMappingsPath) {
+function serveBundledView(view, pageName, enableGoogleAnalytics, bundleMappingsPath) {
   return function(req, res, next) {
     const googleAnalytics = config.googleAnalytics && enableGoogleAnalytics ? {
       debug         : config.env !== config.environments.production,
@@ -20,13 +21,20 @@ function serveBundledView(view, page, enableGoogleAnalytics, bundleMappingsPath)
     fs.readFileAsync(bundleMappingsPath)
     .then(JSON.parse)
     .then(function(mappings) {
-      res.render(view, {
-        settings : config.app[page],
-        scripts  : {
+      let page = null;
+      if (config.app[pageName]) {
+        page = {};
+        page.base  = config.app[pageName].base;
+        page.title = config.app[pageName].title;
+        page.scripts = {
           commons : mappings.commons.js,
-          app     : mappings[page].js
-        },
-        googleAnalytics
+          app     : mappings[pageName].js
+        }
+      }
+      res.render(view, {
+        page,
+        googleAnalytics,
+        settings: Settings
       });
     })
     .catch(next);

@@ -1,11 +1,11 @@
 doctype html
 html
   head
-    base(href="#{settings.base}")
+    base(href="#{page.base}")
     meta(charset="utf-8")
     meta(name="viewport" content="width=device-width")
 
-    title #{settings.title}
+    title #{page.title}
 
     if googleAnalytics && googleAnalytics.trackingId
       - var analyticsUrl = null
@@ -28,6 +28,11 @@ html
         //- // Disabled due to Angulartics
         //- ga('send', 'pageview');
 
+    script.
+      window.Jedbangers = {
+        Settings: !{ settings ? JSON.stringify(settings) : 'null' }
+      };
+
   body
-    script(src="../#{scripts.commons}")
-    script(src="../#{scripts.app}")
+    script(src="../#{page.scripts.commons}")
+    script(src="../#{page.scripts.app}")

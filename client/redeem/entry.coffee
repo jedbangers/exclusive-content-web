@@ -2,9 +2,9 @@
 
 require './stylesheets/app.less'
 
-require './javascripts/app'
+app = require './javascripts/app'
 
-document.body.setAttribute 'ng-app', 'codeRedeemer'
+document.body.setAttribute 'ng-app', app
 
 div = document.createElement 'div'
 div.innerHTML = require './main.jade'

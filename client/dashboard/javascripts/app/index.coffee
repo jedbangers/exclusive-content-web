@@ -1,5 +1,7 @@
 'use strict'
 
+angular = require 'angular'
+
 # TinyMCE
 require 'tinymce/tinymce'
 require 'tinymce/themes/modern/theme'
@@ -28,7 +30,6 @@ require 'angular-spinner'
 require 'ng-table-async/node_modules/ng-table/dist/ng-table'
 require 'ng-table-async'
 
-angular = require 'angular'
 uibs    = require 'angular-ui-bootstrap'
 
 # Commons
@@ -81,6 +82,7 @@ angular
   api
 ]
 
+.constant   'Settings',                      window.Jedbangers.Settings
 .controller 'LoginController',               loginController
 .controller 'AdminsListController',          adminsListController
 .controller 'AdminsProfileController',       adminsProfileController
