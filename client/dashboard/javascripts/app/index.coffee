@@ -45,11 +45,13 @@ api = require '../modules/api'
 authService = require '../services/auth_service'
 
 # Controllers
-loginController               = require '../controllers/login_controller'
-adminsListController          = require '../controllers/admins_list_controller'
-adminsProfileController       = require '../controllers/admins_profile_controller'
-contentCodesListController    = require '../controllers/content_codes_list_controller'
-contentCodesProfileController = require '../controllers/content_codes_profile_controller'
+homeController                     = require '../controllers/home_controller'
+loginController                    = require '../controllers/login_controller'
+adminsListController               = require '../controllers/admins_list_controller'
+adminsProfileController            = require '../controllers/admins_profile_controller'
+contentCodesListController         = require '../controllers/content_codes_list_controller'
+contentCodesProfileController      = require '../controllers/content_codes_profile_controller'
+configurableSettingsFormController = require '../controllers/configurable_settings_form_controller'
 
 # Directives
 navbar                  = require '../directives/navbar'
@@ -82,12 +84,15 @@ angular
   api
 ]
 
-.constant   'Settings',                      window.Jedbangers.Settings
-.controller 'LoginController',               loginController
-.controller 'AdminsListController',          adminsListController
-.controller 'AdminsProfileController',       adminsProfileController
-.controller 'ContentCodesListController',    contentCodesListController
-.controller 'ContentCodesProfileController', contentCodesProfileController
+.constant   'Settings',                           window.Jedbangers.Settings
+.constant   'ConfigurableSettings',               window.Jedbangers.ConfigurableSettings
+.controller 'HomeController',                     homeController
+.controller 'LoginController',                    loginController
+.controller 'AdminsListController',               adminsListController
+.controller 'AdminsProfileController',            adminsProfileController
+.controller 'ContentCodesListController',         contentCodesListController
+.controller 'ContentCodesProfileController',      contentCodesProfileController
+.controller 'ConfigurableSettingsFormController', configurableSettingsFormController
 
 .factory    'AuthService',             authService
 .directive  'navbar',                  navbar

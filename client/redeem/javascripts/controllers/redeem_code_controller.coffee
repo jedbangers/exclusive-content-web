@@ -2,7 +2,9 @@
 
 _ = require 'lodash'
 
-module.exports = ($http, $localForage, $sce) ->
+module.exports = ($http, $localForage, $sce, ConfigurableSettings) ->
+
+  this.redeemCodeHint = ConfigurableSettings.redeemCodeHint
 
   buildCacheContent = (content, redeemedAt) ->
     code: content.code

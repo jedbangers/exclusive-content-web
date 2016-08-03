@@ -30,9 +30,10 @@ angular
   'LocalForageModule'
 ]
 
+.constant   'ConfigurableSettings', window.Jedbangers.ConfigurableSettings
 .controller 'RedeemCodeController', redeemCodeController
-.directive 'contentPlayer', contentPlayer
-.directive 'redeemedCode', redeemedCode
+.directive  'contentPlayer',        contentPlayer
+.directive  'redeemedCode',         redeemedCode
 
 .config ($analyticsProvider, $localForageProvider) ->
 

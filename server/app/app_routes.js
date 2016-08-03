@@ -1,12 +1,14 @@
 'use strict';
 
-const config       = require('config');
-const express      = require('express');
-const fs           = require('fs');
-const RouteUtils   = require('../utils/route_utils');
-const api          = require('../api');
-const streamRouter = require('../routes/stream');
-const Settings     = require('../settings');
+const Bluebird              = require('bluebird');
+const config                = require('config');
+const express               = require('express');
+const fs                    = require('fs');
+const RouteUtils            = require('../utils/route_utils');
+const api                   = require('../api');
+const streamRouter          = require('../routes/stream');
+const Settings              = require('../settings');
+const generalSettingService = require('../services/general_settings_service');
 
 const enforceSSL = RouteUtils.enforceSSL({ port: config.server.ssl.port });
 
@@ -18,9 +20,11 @@ function serveBundledView(view, pageName, enableGoogleAnalytics, bundleMappingsP
       cookieOptions : config.googleAnalytics.cookieOptions
     } : null;
 
-    fs.readFileAsync(bundleMappingsPath)
-    .then(JSON.parse)
-    .then(function(mappings) {
+    Bluebird.all([
+      fs.readFileAsync(bundleMappingsPath).then(JSON.parse),
+      generalSettingService.getSettings()
+    ])
+    .spread(function(mappings, generalSettings) {
       let page = null;
       if (config.app[pageName]) {
         page = {};
@@ -29,12 +33,13 @@ function serveBundledView(view, pageName, enableGoogleAnalytics, bundleMappingsP
         page.scripts = {
           commons : mappings.commons.js,
           app     : mappings[pageName].js
-        }
+        };
       }
       res.render(view, {
         page,
         googleAnalytics,
-        settings: Settings
+        settings: Settings,
+        generalSettings
       });
     })
     .catch(next);
@@ -54,9 +59,8 @@ module.exports = function(app) {
     index  : false
   }));
 
-  // app.use('/web',       serveBundledView('index', 'web',       config.app.assets.mappings));
+  app.use('/redeem', serveBundledView('index', 'redeem', true, config.app.assets.mappings));
   app.use('/dashboard', serveBundledView('index', 'dashboard', false, config.app.assets.mappings));
-  app.use('/redeem',    serveBundledView('index', 'redeem',    true, config.app.assets.mappings));
 
   // URL rewrite for non-HTML5 browsers
   // Just send the index.html for other files to support HTML5Mode

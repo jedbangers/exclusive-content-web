@@ -100,3 +100,14 @@ module.exports = (Restangular) ->
 
     delete: (id) ->
       api.one('contentCodes', id).remove()
+
+  configurableSettings:
+    update: (cs) ->
+      body = $.param
+        redeemCodeHint: cs.redeemCodeHint
+
+      headers =
+        'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+
+      api.one('generalSettings').customPUT body, undefined, undefined, headers
+

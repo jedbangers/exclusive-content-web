@@ -53,6 +53,7 @@ module.exports = ($locationProvider, $urlRouterProvider, $stateProvider, cfpLoad
     parent        : 'dashboard'
     url           : '/'
     templateUrl   : templateHome
+    controller    : 'HomeController'
     ncyBreadcrumb :
       label: 'Dashboard'
 

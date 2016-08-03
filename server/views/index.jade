@@ -30,7 +30,8 @@ html
 
     script.
       window.Jedbangers = {
-        Settings: !{ settings ? JSON.stringify(settings) : 'null' }
+        Settings: !{ settings ? JSON.stringify(settings) : 'null' },
+        ConfigurableSettings: !{ generalSettings ? JSON.stringify(generalSettings) : 'null' }
       };
 
   body
