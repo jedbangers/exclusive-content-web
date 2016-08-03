@@ -22,9 +22,8 @@ module.exports = function() {
 
   api.use(RouteUtils.enforceSSL({ port: config.server.ssl.port }));
 
-  api.use('/settings', require('./settings'));
-  api.use('/auth',     require('./auth'));
-  api.use('/admins',   Middlewares.Auth.ensureAuthenticated(), require('./admins'));
+  api.use('/auth',   require('./auth'));
+  api.use('/admins', Middlewares.Auth.ensureAuthenticated(), require('./admins'));
 
   // Make /contentCodes an authenticated endpoint except for /contentCodes/code
   api.use('/contentCodes', function(req, res, next) {
