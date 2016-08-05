@@ -36,7 +36,7 @@
                 placeholder = "ej: O6Z6Z6Y"
               )
               p.help-block
-                small {{ ctrl.redeemCodeHint }}
+                small(ng-bind-html="ctrl.trustAsHtml(ctrl.redeemCodeHint)")
 
             button.btn.btn-lg.btn-default(
               type        = "submit"
