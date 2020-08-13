@@ -26,8 +26,6 @@ require 'restangular'
 require 'angular-loading-bar'
 require 'angular-spinner'
 
-# Fix this ugly bit of code
-require 'ng-table-async/node_modules/ng-table/dist/ng-table'
 require 'ng-table-async'
 
 uibs    = require 'angular-ui-bootstrap'

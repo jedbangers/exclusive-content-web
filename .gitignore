@@ -19,3 +19,5 @@ dump.rdb
 *.heapsnapshot
 *.log
 
+# Redis installation files
+redis*
