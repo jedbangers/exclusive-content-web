@@ -9,7 +9,8 @@
     "test-server": "eslint . && grunt test:server",
     "test-client": "eslint . && grunt test:client",
     "linter": "eslint .",
-    "dist": "grunt build",
+    "build": "grunt build",
+    "deploy": "scripts/deploy.sh",
     "seed": "node scripts/seed"
   },
   "repository": {

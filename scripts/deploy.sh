@@ -1,17 +1,5 @@
-npm run dist
+git remote add heroku git@heroku.com:jedbangers-exclusive-content.git
 
-cd dist
+git fetch heroku
 
-git init
-
-git add .
-
-git commit -m "Deploy"
-
-git remote add origin git@heroku.com:jedbangers-exclusive-content.git
-
-git fetch origin
-
-git push --force origin master
-
-cd ..
+git push --force heroku master

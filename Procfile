@@ -1,1 +1,1 @@
-web: node server/bin/web.js
+web: cd dist && node server/bin/web.js
