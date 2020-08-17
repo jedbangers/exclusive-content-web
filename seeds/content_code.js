@@ -2,9 +2,11 @@
 
 const _           = require('lodash');
 const Bluebird    = require('bluebird');
-const chance      = require('chance').Chance();
+const Chance      = require('chance');
 const Log         = require('../server/utils/log');
 const ContentCode = require('../server/model/content_code');
+
+const chance = new Chance();
 
 function seedContent() {
   return {

@@ -5,7 +5,7 @@ require('../server/bin/context');
 const _               = require('lodash');
 const Bluebird        = require('bluebird');
 const config          = require('config');
-const Mongootils      = require('mongootils');
+const mongoose        = require('mongoose');
 const AdminSeed       = require('../seeds/admin');
 const Log             = require('../server/utils/log');
 const ContentCodeSeed = require('../seeds/content_code');
@@ -13,8 +13,8 @@ const ContentCodeSeed = require('../seeds/content_code');
 const adminsToSeed       = process.argv[2] || 3;
 const contentCodesToSeed = process.argv[3] || 15;
 
-new Mongootils(config.mongo.uri, config.mongo.options)
-.connect()
+Bluebird.resolve()
+.then(() => mongoose.connect(config.mongo.uri, config.mongo.options))
 .then(() => Bluebird.all([
   AdminSeed.seed(adminsToSeed),
   ContentCodeSeed.seed(contentCodesToSeed)

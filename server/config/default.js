@@ -58,7 +58,12 @@ module.exports = {
     }
   },
   mongo: {
-    uri: process.env.MONGO_URL
+    uri: process.env.MONGO_URL,
+    options: {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+      useCreateIndex: true
+    }
   },
   redis: {
     keyspace : 'session:',

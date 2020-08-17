@@ -1,11 +1,12 @@
 'use strict';
 
 const _          = require('lodash');
+const Bluebird   = require('bluebird');
 const config     = require('config');
 const fs         = require('fs');
 const https      = require('https');
 const express    = require('express');
-const Mongootils = require('mongootils');
+const mongoose   = require('mongoose');
 const appConfig  = require('./app_config');
 const appErrors  = require('./app_errors');
 const appRoutes  = require('./app_routes');
@@ -31,8 +32,8 @@ if (config.server && config.server.ssl && config.server.ssl.enable) {
 // Promise that is resolved when app has been successfully setup and rejected otherwise.
 function setup() {
   if (!setupPromise) {
-    setupPromise = new Mongootils(config.mongo.uri, config.mongo.options)
-    .connect()
+    setupPromise = Bluebird.resolve()
+    .then(() => mongoose.connect(config.mongo.uri, config.mongo.options))
     .then(() => {
       appConfig(serverHttp);
       appRoutes(serverHttp);
