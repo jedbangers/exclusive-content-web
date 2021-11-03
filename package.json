@@ -78,7 +78,7 @@
     "simple-response": "0.0.3",
     "superagent": "^1.8.3",
     "tinymce": "^4.3.13",
-    "validator": "^3.43.0",
+    "validator": "^13.7.0",
     "winston": "^0.8.1"
   },
   "devDependencies": {
