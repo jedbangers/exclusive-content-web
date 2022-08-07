@@ -5,7 +5,7 @@ const Bluebird     = require('bluebird');
 const util         = require('util');
 const uuid         = require('node-uuid');
 const jwt          = require('jsonwebtoken');
-const RedisService = require('../utils/redis_service');
+const redis        = require('redis');
 
 const SECOND = 1000;
 
@@ -32,16 +32,16 @@ util.inherits(UnauthorizedAccessError, Error);
 util.inherits(NoTokenProvidedError,    Error);
 
 function JWTRedisService(config) {
-  this.client = RedisService.createClient({
-    host : config.host,
-    port : config.port,
-    pass : config.pass
-  });
+  this.client = redis.createClient(config.connection);
 
   this.issuer     = config.issuer;
   this.secret     = config.secret;
   this.keyspace   = config.keyspace;
   this.expiration = config.expiration;
+}
+
+JWTRedisService.prototype.connect = function() {
+  return this.client.connect();
 }
 
 JWTRedisService.prototype.sign = function(data) {
@@ -52,14 +52,14 @@ JWTRedisService.prototype.sign = function(data) {
     expiresIn : this.expiration / SECOND
   });
 
-  return this.client.psetexAsync(this.keyspace + jti, this.expiration, JSON.stringify(data))
+  return this.client.PSETEX(this.keyspace + jti, this.expiration, JSON.stringify(data))
   .then((reply) => {
     if (!reply) {
       throw new JWTRedisServiceError('Session could not be stored in Redis');
     }
-  })
-  .thenReturn(token);
 
+    return token;
+  });
 };
 
 JWTRedisService.prototype.verify = function(token) {
@@ -75,7 +75,7 @@ JWTRedisService.prototype.verify = function(token) {
     if (_.isEmpty(decoded.jti)) {
       throw new UnauthorizedAccessError();
     }
-    return this.client.getAsync(this.keyspace + decoded.jti)
+    return this.client.GET(this.keyspace + decoded.jti)
     .then((data) => {
       if (_.isEmpty(data)) {
         throw new UnauthorizedAccessError();
@@ -97,7 +97,7 @@ JWTRedisService.prototype.expire = function(token) {
     return Bluebird.resolve();
   }
 
-  return this.client.delAsync(this.keyspace + data.jti);
+  return this.client.DEL(this.keyspace + data.jti);
 };
 
 JWTRedisService.JWTRedisServiceError    = JWTRedisServiceError;
