@@ -1,15 +1,16 @@
 'use strict';
 
-const config       = require('config');
-const cookieParser = require('cookie-parser');
-const passport     = require('passport');
-const morgan       = require('morgan');
-const compression  = require('compression');
-const bodyparser   = require('body-parser');
-const favicon      = require('serve-favicon');
-const helmet       = require('helmet');
-const Middlewares  = require('../middlewares');
-const Admin        = require('../model/admin');
+const config          = require('config');
+const cookieParser    = require('cookie-parser');
+const passport        = require('passport');
+const morgan          = require('morgan');
+const compression     = require('compression');
+const bodyparser      = require('body-parser');
+const favicon         = require('serve-favicon');
+const helmet          = require('helmet');
+const Middlewares     = require('../middlewares');
+const Admin           = require('../model/admin');
+const JWTRedisService = require('../services/jwt_redis_service');
 
 module.exports = function(app) {
 
@@ -19,6 +20,13 @@ module.exports = function(app) {
 
   app.set('view engine', 'jade');
   app.set("views", config.app.views.path);
+
+  app.set('jwtRedisService', new JWTRedisService({
+    connection : config.redis.connection,
+    issuer     : config.server.auth.issues,
+    secret     : config.server.auth.tokenSecret,
+    expiration : config.server.auth.expiration
+  }));
 
   if (config.env !== config.environments.test) {
     app.use(morgan('dev'));

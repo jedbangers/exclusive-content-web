@@ -66,10 +66,14 @@ module.exports = {
     }
   },
   redis: {
-    keyspace : 'session:',
-    host     : process.env.REDIS_URL ? url.parse(process.env.REDIS_URL).hostname           : undefined,
-    port     : process.env.REDIS_URL ? url.parse(process.env.REDIS_URL).port               : undefined,
-    pass     : process.env.REDIS_URL ? url.parse(process.env.REDIS_URL).auth.split(':')[1] : undefined
+    keyspace: 'session:',
+    connection: {
+      url: process.env.REDIS_TLS_URL,
+      socket: {
+        tls: true,
+        rejectUnauthorized: false, // needed by Heroku self-signed certificates
+      }
+    }
   },
   googleAnalytics: {
     trackingId: process.env.GOOGLE_ANALYTICS_TRACKING_ID,

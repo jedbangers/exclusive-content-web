@@ -38,7 +38,8 @@ function setup() {
       appConfig(serverHttp);
       appRoutes(serverHttp);
       appErrors(serverHttp);
-    });
+    })
+    .then(() => serverHttp.get('jwtRedisService').connect());
   }
 
   return setupPromise;

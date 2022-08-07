@@ -5,21 +5,12 @@ const passport        = require('passport');
 const Response        = require('simple-response');
 const JWTRedisService = require('../services/jwt_redis_service');
 
-const jwtRedisService = new JWTRedisService({
-  host       : config.redis.host,
-  port       : config.redis.port,
-  pass       : config.redis.pass,
-  issuer     : config.server.auth.issues,
-  secret     : config.server.auth.tokenSecret,
-  expiration : config.server.auth.expiration
-});
-
 module.exports = {
 
   ensureAuthenticated() {
     return (req, res, next) => {
       const token = req.cookies[config.server.auth.cookieName];
-      return jwtRedisService.verify(token)
+      return req.app.get('jwtRedisService').verify(token)
       .spread((jti, user) => {
         req.auth = {
           jti,
@@ -60,7 +51,7 @@ module.exports = {
   login() {
     return (req, res) => {
       const user = req.user.toJSON();
-      return jwtRedisService.sign(user)
+      return req.app.get('jwtRedisService').sign(user)
       .then((token) => {
         res.cookie(config.server.auth.cookieName, token, {
           httpOnly : true,
@@ -81,7 +72,7 @@ module.exports = {
         return Response.NoContent(res)();
       }
 
-      return jwtRedisService.expire(token)
+      return req.app.get('jwtRedisService').expire(token)
       .then(() => {
         res.clearCookie(config.server.auth.cookieName);
         Response.Ok(res)('Sucessfully signed out.');
