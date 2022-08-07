@@ -24,7 +24,7 @@
   "author": "Andrés Mata Suárez <amatasuarez@gmail.com>",
   "license": "MIT",
   "engines": {
-    "node": "12.16.3"
+    "node": "18.7.0"
   },
   "bugs": {
     "url": "https://github.com/jedbangers/exclusive-content-web/issues"
