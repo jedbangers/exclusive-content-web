@@ -1,4 +1,4 @@
-git remote add heroku git@heroku.com:jedbangers-exclusive-content.git
+git remote add heroku https://git.heroku.com/jedbangers-exclusive-content.git
 
 git fetch heroku
 
