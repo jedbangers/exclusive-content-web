@@ -59,7 +59,7 @@
     "jquery": "^2.1.4",
     "jsonwebtoken": "^5.0.1",
     "localforage": "^1.4.0",
-    "lodash": "^3.10.0",
+    "lodash": "^4.17.21",
     "mongoose": "5.10.0",
     "mongoose-delete": "^0.5.2",
     "mongoose-shortid-nodeps": "^0.6.4",
