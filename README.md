@@ -7,8 +7,13 @@ Based on [andresmatasuarez/angular-express-passport-seed](https://github.com/and
 
 # Deploy
 Two alternatives:
-1. Just pish code to Github repo and then use Heroku's manual deploy feature to deploy `master` branch.
-2. Run `npm run deploy`.
+1. Run:
+  ```console
+  $ heroku login
+  $ (add app remotes if not added already)
+  $ git push heroku master
+  ```
+2. Run `npm run deploy` (***not working as of 8/Aug/2022***)
 
 
 # Useful
