@@ -1,7 +1,7 @@
 doctype html
 html
   head
-    base(href="#{page.base}")
+    base(href=page.base)
     meta(charset="utf-8")
     meta(name="viewport" content="width=device-width")
 
@@ -35,5 +35,5 @@ html
       };
 
   body
-    script(src="../#{page.scripts.commons}")
-    script(src="../#{page.scripts.app}")
+    script(src=`../${page.scripts.commons}`)
+    script(src=`../${page.scripts.app}`)

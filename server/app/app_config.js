@@ -18,7 +18,7 @@ module.exports = function(app) {
 
   app.enable('trust proxy');
 
-  app.set('view engine', 'jade');
+  app.set('view engine', 'pug');
   app.set("views", config.app.views.path);
 
   app.set('jwtRedisService', new JWTRedisService({
