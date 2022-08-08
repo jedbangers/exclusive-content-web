@@ -68,7 +68,7 @@ module.exports = {
   redis: {
     keyspace: 'session:',
     connection: {
-      url: process.env.REDIS_TLS_URL,
+      url: process.env.HEROKU_REDIS_NAVY_TLS_URL || process.env.REDIS_TLS_URL,
       socket: {
         tls: true,
         rejectUnauthorized: false, // needed by Heroku self-signed certificates
