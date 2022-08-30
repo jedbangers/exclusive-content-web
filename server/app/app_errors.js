@@ -23,7 +23,7 @@ module.exports = function(app) {
     app.use(function(err, req, res, next) {
       res.status(err.status || 500);
 
-      const message = err.status === 404 ? 'Page not found' : 'Internal server error';
+      const message = err.status === 404 ? 'Page not found' : 'Internal server error ----' + JSON.stringify(err, Object.getOwnPropertyNames(err));
 
       // respond with HTML page
       if (req.accepts('html')) {
